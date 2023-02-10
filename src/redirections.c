@@ -6,7 +6,7 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 18:12:03 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/10 21:10:37 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/10 22:42:42 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	redir_out_append(t_token *tokens, t_command *commands, t_bool *fail)
 void	redir_in(t_token *tokens, t_command *commands, t_bool *fail)
 {
 	int		fd;
-	
+
 	fd = open(tokens->next->content, O_RDONLY);
 	if (fd == -1)
 	{
@@ -42,10 +42,20 @@ void	redir_in(t_token *tokens, t_command *commands, t_bool *fail)
 	commands->input_fd = fd;
 }
 
-void	handle_redirection(t_token *tokens, t_command *commands, t_bool *fail)
+void	handle_redirection(t_token *tokens, t_command *commands,
+				t_bool *fail, t_token **next)
 {
+	*next = tokens->next->next;
 	if (tokens->type == REDIR_OUT || tokens->type == APPEND)
 		redir_out_append(tokens, commands, fail);
 	if (tokens->type == REDIR_IN)
 		redir_in(tokens, commands, fail);
+	if (tokens->prev)
+		tokens->prev->next = tokens->next->next;
+	if (tokens->next->next)
+		tokens->next->next->prev = tokens->prev;
+	free(tokens->next->content);
+	free(tokens->next);
+	free(tokens->content);
+	free(tokens);
 }

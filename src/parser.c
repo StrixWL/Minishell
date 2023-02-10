@@ -6,7 +6,7 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 20:36:24 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/10 19:04:29 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/10 22:35:57 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ static void	new_command(t_token *tokens, t_command **commands_)
 
 	new_command = _malloc(sizeof(t_command));
 	new_command->tokens = tokens;
+	new_command->append = FALSE;
+	new_command->input_fd = 0;
+	new_command->output_fd = 1;
 	new_command->next = NULL;
 	if (!*commands_)
 	{
@@ -31,7 +34,7 @@ static void	new_command(t_token *tokens, t_command **commands_)
 	commands->next = new_command;
 }
 
-static t_command	*handle_pipes(t_token *tokens, t_bool *fail)
+static t_command	*handle_pipes_and_redirects(t_token *tokens, t_bool *fail)
 {
 	t_command	*commands;
 	t_command	*head;
@@ -53,7 +56,7 @@ static t_command	*handle_pipes(t_token *tokens, t_bool *fail)
 			free(tokens);
 		}
 		else if (is_redirection(tokens->type))
-			handle_redirection(tokens, commands, fail);
+			handle_redirection(tokens, commands, fail, &next);
 		tokens = next;
 	}
 	return (head);
@@ -63,6 +66,6 @@ t_command	*parse(t_token *tokens, t_bool *fail)
 {
 	t_command	*commands;
 
-	commands = handle_pipes(tokens, fail);
+	commands = handle_pipes_and_redirects(tokens, fail);
 	return (commands);
 }
