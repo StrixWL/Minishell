@@ -6,7 +6,7 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 20:06:06 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/10 23:20:34 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/11 22:21:35 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ t_bool	check_for_pipe(t_token *token)
 	p = token->prev;
 	while (p && p->type == WSPACE)
 		p = p->prev;
-	if (!(p && !(p->type == NEW_LINE || is_redirection(p->type))))
+	if (!(p && !(p->type == NEW_LINE || p->type == PIPE
+				|| is_redirection(p->type))))
 		return (FALSE);
 	return (TRUE);
 }
@@ -43,6 +44,7 @@ t_bool	syntax_check(t_token *tokens)
 		if (tokens->type == PIPE)
 			if (!check_for_pipe(tokens))
 				return (FALSE);
+		if (tokens->type == )
 		tokens = tokens->next;
 	}
 	return (TRUE);
