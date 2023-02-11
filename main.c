@@ -6,36 +6,26 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 21:34:36 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/10 22:29:02 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/11 18:39:20 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	print_tokens(t_token *tokens)
-{
-	while (tokens)
-	{
-		printf("=> %s\n", tokens->content);
-		tokens = tokens->next;
-	}
-	printf("______________\n");
-}
-
 void	print_cmds(t_command *commands)
 {
-	t_token	*tokens;
+	char	**elems;
 	int		i;
 
 	i = 1;
 	while (commands)
 	{
-		tokens = commands->tokens;
+		elems = commands->elements;
 		printf("Command%d:\n          elements: ", i++);
-		while (tokens)
+		while (*elems)
 		{
-			printf("%s%s", tokens->content, tokens->next ? ", " : "");
-			tokens = tokens->next;
+			printf("%s%s", *elems, *(elems + 1) ? ", " : "");
+			elems++;
 		}
 		printf("\n          input_fd: %d\n", commands->input_fd);
 		printf("          output_fd: %d\n", commands->output_fd);
@@ -78,6 +68,7 @@ static int	read_line(char *line)
 		printf("failed hh\n");
 	print_cmds(commands);
 	free_commands(commands);
+	free_tokens(tokens);
 	free(line);
 	return (0);
 }

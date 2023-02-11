@@ -6,7 +6,7 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 20:36:44 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/10 14:16:07 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/11 18:39:06 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	free_commands(t_command *commands)
 	while (commands)
 	{
 		next = commands->next;
-		free_tokens(commands->tokens);
+		free(commands->elements);
 		free(commands);
 		commands = next;
 	}

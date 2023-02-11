@@ -6,7 +6,7 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:33:06 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/10 22:43:01 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/11 14:52:14 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,17 +83,13 @@ void		expand(t_token **tokens);
 /* parser */
 typedef struct s_command
 {
-	t_token				*tokens;
+	char				**elements;
 	int					input_fd;
 	int					output_fd;
 	t_bool				append;
 	struct s_command	*next;
 }					t_command;
 t_command	*parse(t_token *tokens, t_bool *fail);
-
-/* redirections */
-void		handle_redirection(t_token *tokens, t_command *commands,
-				t_bool *fail, t_token **next);
 
 /* lib */
 size_t		_strlen(char *s);
