@@ -6,7 +6,7 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 20:36:24 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/11 20:25:06 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/11 20:35:12 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ static char	**append_elem(char **elements, char *content)
 	return (new_elements);
 }
 
-static void	add_new_cmd(t_command **commands, char **elements, int *fd, t_bool append)
+static void	add_new_cmd(t_command **commands, char **elements,
+				int *fd, t_bool append)
 {
 	t_command	*new_command;
 	t_command	*t;
@@ -63,7 +64,8 @@ static void	reset(char ***elements, int *fd, t_bool *append)
 	*append = FALSE;
 }
 
-t_token	*handle_redirections(t_token *tokens, int *fd, t_bool *fail, t_bool *append)
+t_token	*handle_redirections(t_token *tokens, int *fd, t_bool *fail,
+				t_bool *append)
 {
 	if (tokens->type == REDIR_OUT || tokens->type == APPEND)
 	{
