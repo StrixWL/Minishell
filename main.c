@@ -6,7 +6,7 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 21:34:36 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/12 14:41:11 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/12 14:43:41 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ static int	read_line(char *line)
 	if (fail)
 		printf("failed hh\n");
 	// fail atkon true la kant lcommand mkhwra
+	
 	print_cmds(commands);
 	free_commands(commands);
 	free_tokens(tokens);
