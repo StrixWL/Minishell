@@ -6,7 +6,7 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 21:34:36 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/11 18:39:20 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/12 14:41:11 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,11 @@ static int	read_line(char *line)
 	expand(&tokens);
 	fail = FALSE;
 	commands = parse(tokens, &fail);
+	// hna 3ndk lcommands
+
 	if (fail)
 		printf("failed hh\n");
+	// fail atkon true la kant lcommand mkhwra
 	print_cmds(commands);
 	free_commands(commands);
 	free_tokens(tokens);
@@ -80,11 +83,3 @@ int	main(void)
 	while (1)
 		read_line(readline("XD> "));
 }
-
-/*
-cmd < file: file becomes fd = 0 of cmd
-cmd > file: cmd output gets written in file
-cmd >> file: cmd output gets written in file in append mode
-cmd << delimiter: pass multiple lines in input until delimiter is found
-cmd1 | cmd2: cmd1 output becomes fd = 0 of cmd
-*/
