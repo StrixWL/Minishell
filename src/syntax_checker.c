@@ -6,7 +6,7 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 20:06:06 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/11 22:21:35 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/12 14:35:11 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ t_bool	syntax_check(t_token *tokens)
 		if (tokens->type == PIPE)
 			if (!check_for_pipe(tokens))
 				return (FALSE);
-		if (tokens->type == )
 		tokens = tokens->next;
 	}
 	return (TRUE);
