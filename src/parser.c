@@ -6,7 +6,7 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 20:36:24 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/12 15:44:53 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/12 16:04:18 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ t_token	*handle_redirections(t_token *tokens, int *fd, t_bool *fail,
 {
 	if (tokens->next && (tokens->type == REDIR_OUT || tokens->type == APPEND))
 	{
+		if (_strcmp(tokens->next->content, "/dev/stdout"))
+			return (tokens->next);
 		*(fd + 1) = open(tokens->next->content, O_WRONLY | O_CREAT, 0644);
 		if (*fd == -1)
 			printf("minishell: %s: Permission denied\n", tokens->next->content);
@@ -77,6 +79,8 @@ t_token	*handle_redirections(t_token *tokens, int *fd, t_bool *fail,
 	}
 	else if (tokens->next && tokens->type == REDIR_IN)
 	{
+		if (_strcmp(tokens->next->content, "/dev/stdin"))
+			return (tokens->next);
 		*fd = open(tokens->next->content, O_RDONLY);
 		if (*(fd + 1) == -1)
 			printf("minishell: %s: Permission denied\n", tokens->next->content);
@@ -84,10 +88,7 @@ t_token	*handle_redirections(t_token *tokens, int *fd, t_bool *fail,
 	if (*fd == -1 || *(fd + 1) == -1 || !tokens->next)
 		*fail = TRUE;
 	if (!tokens->next)
-	{
-		printf("minishell: : No such file or directory\n");
-		return (tokens);
-	}
+		return (printf("minishell: : No such file or directory\n"), tokens);
 	return (tokens->next);
 }
 
