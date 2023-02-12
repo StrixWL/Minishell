@@ -6,7 +6,7 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:33:06 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/11 14:52:14 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/12 17:11:53 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,6 @@ typedef enum e_boolean {FALSE, TRUE}	t_bool;
 
 /* signals */
 void		capture_signals(void);
-
-/* environment */
-typedef struct s_env
-{
-	char			*property;
-	char			*value;
-	struct s_env	*next;
-}					t_env;
-
-char		*get_property_value(t_env	*lst, char *property);
-void		fetch_env(t_env **env, char **environment);
 
 /* tokenizer */
 // ' ', '\n', '\'', '"', '\\', '$', '|', '<', '>', '<<', '>>', 
@@ -88,6 +77,7 @@ typedef struct s_command
 	int					output_fd;
 	t_bool				append;
 	struct s_command	*next;
+	struct s_command	*prev;
 }					t_command;
 t_command	*parse(t_token *tokens, t_bool *fail);
 

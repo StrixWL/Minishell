@@ -6,7 +6,7 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 21:34:36 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/12 15:51:08 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/12 16:52:35 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,16 @@ void	print_cmds(t_command *commands)
 		{
 			printf("%s%s", *elems, *(elems + 1) ? ", " : "");
 			elems++;
+		}
+		if (commands->prev)
+		{
+			printf("\n          prev_elems: ");
+			elems = commands->prev->elements;
+			while (*elems)
+			{
+				printf("%s%s", *elems, *(elems + 1) ? ", " : "");
+				elems++;
+			}
 		}
 		printf("\n          input_fd: %d\n", commands->input_fd);
 		printf("          output_fd: %d\n", commands->output_fd);

@@ -6,7 +6,7 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 20:36:24 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/12 16:04:18 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/12 16:56:13 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,21 @@ static void	add_new_cmd(t_command **commands, char **elements,
 	new_command->input_fd = *fd;
 	new_command->output_fd = *(fd + 1);
 	new_command->next = NULL;
+	new_command->prev = NULL;
 	if (!*commands)
 	{
 		*commands = new_command;
 		return ;
 	}
 	t = *commands;
+	if (!t->next)
+		new_command->prev = t;
 	while (t->next)
+	{
+		if (!t->next->next)
+			new_command->prev = t->next;
 		t = t->next;
+	}
 	t->next = new_command;
 }
 
@@ -83,7 +90,7 @@ t_token	*handle_redirections(t_token *tokens, int *fd, t_bool *fail,
 			return (tokens->next);
 		*fd = open(tokens->next->content, O_RDONLY);
 		if (*(fd + 1) == -1)
-			printf("minishell: %s: Permission denied\n", tokens->next->content);
+			printf("minishell: %s: Couldn't open file\n", tokens->next->content);
 	}
 	if (*fd == -1 || *(fd + 1) == -1 || !tokens->next)
 		*fail = TRUE;
@@ -108,7 +115,7 @@ t_command	*parse(t_token *tokens, t_bool *fail)
 			add_new_cmd(&commands, elements, fd, append);
 			reset(&elements, fd, &append);
 		}
-		else if (is_redirection(tokens->type))
+		else if (is_redirection(tokens->type) && tokens->type != HEREDOC)
 			tokens = handle_redirections(tokens, fd, fail, &append);
 		else
 			elements = append_elem(elements, tokens->content);
