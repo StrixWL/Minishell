@@ -6,7 +6,7 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 21:34:36 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/12 14:43:41 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/12 15:51:08 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,9 @@ static int	read_line(char *line)
 	expand(&tokens);
 	fail = FALSE;
 	commands = parse(tokens, &fail);
-	// hna 3ndk lcommands
-
-	if (fail)
-		printf("failed hh\n");
-	// fail atkon true la kant lcommand mkhwra
-	
-	print_cmds(commands);
+	if (!fail)
+		print_cmds(commands); // here is where u should init the execution
+	// fail == true la kant lcommand mkhwra
 	free_commands(commands);
 	free_tokens(tokens);
 	free(line);

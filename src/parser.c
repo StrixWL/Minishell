@@ -6,7 +6,7 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 20:36:24 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/11 20:35:12 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/12 15:44:53 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	reset(char ***elements, int *fd, t_bool *append)
 t_token	*handle_redirections(t_token *tokens, int *fd, t_bool *fail,
 				t_bool *append)
 {
-	if (tokens->type == REDIR_OUT || tokens->type == APPEND)
+	if (tokens->next && (tokens->type == REDIR_OUT || tokens->type == APPEND))
 	{
 		*(fd + 1) = open(tokens->next->content, O_WRONLY | O_CREAT, 0644);
 		if (*fd == -1)
@@ -75,14 +75,19 @@ t_token	*handle_redirections(t_token *tokens, int *fd, t_bool *fail,
 		if (tokens->type == APPEND)
 			*append = TRUE;
 	}
-	else if (tokens->type == REDIR_IN)
+	else if (tokens->next && tokens->type == REDIR_IN)
 	{
 		*fd = open(tokens->next->content, O_RDONLY);
 		if (*(fd + 1) == -1)
 			printf("minishell: %s: Permission denied\n", tokens->next->content);
 	}
-	if (*fd == -1 || *(fd + 1) == -1)
+	if (*fd == -1 || *(fd + 1) == -1 || !tokens->next)
 		*fail = TRUE;
+	if (!tokens->next)
+	{
+		printf("minishell: : No such file or directory\n");
+		return (tokens);
+	}
 	return (tokens->next);
 }
 

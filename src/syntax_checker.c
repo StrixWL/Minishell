@@ -6,7 +6,7 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 20:06:06 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/12 15:16:51 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/12 15:45:07 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ t_bool	check_for_redir(t_token *token)
 	p = token->next;
 	while (p && p->type == WSPACE)
 		p = p->next;
-	if (!(p && (p->type == WORD || p->type == VAR)))
+	if (!(p && (p->type == WORD || p->type == VAR
+				|| p->type == QUOTE || p->type == DQUOTE)))
 		return (FALSE);
 	return (TRUE);
 }
