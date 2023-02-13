@@ -6,16 +6,23 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:48:32 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/13 13:24:19 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/13 19:22:46 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-t_token	*handle_redir_out(t_token *tokens, int *fd, t_bool *fail,
+void	handle_redir_out(t_token *tokens, int *fd, t_bool *fail,
 				t_bool *append)
 {
-	*(fd + 1) = open(tokens->next->content, O_WRONLY | O_CREAT, 0644);
+	if (_strcmp(tokens->next->content, ""))
+		return ;
+	if (tokens->type == REDIR_OUT)
+		*(fd + 1) = open(tokens->next->content, O_WRONLY | O_CREAT
+			| O_TRUNC, 0644);
+	else
+		*(fd + 1) = open(tokens->next->content, O_WRONLY | O_CREAT
+			| O_APPEND, 0644);
 	if (*(fd + 1) == -1)
 	{
 		if (access(tokens->next->content, W_OK))
@@ -23,14 +30,12 @@ t_token	*handle_redir_out(t_token *tokens, int *fd, t_bool *fail,
 		else
 			printf("minishell: %s: Is a directory\n", tokens->next->content);
 		*fail = TRUE;
-		return (tokens);
 	}
 	if (tokens->type == APPEND)
 		*append = TRUE;
-	return (tokens->next);
 }
 
-t_token	*handle_redir_in(t_token *tokens, int *fd, t_bool *fail)
+void	handle_redir_in(t_token *tokens, int *fd, t_bool *fail)
 {
 	*fd = open(tokens->next->content, O_RDONLY);
 	if (*fd == -1)
@@ -40,7 +45,48 @@ t_token	*handle_redir_in(t_token *tokens, int *fd, t_bool *fail)
 		else if (access(tokens->next->content, W_OK))
 			printf("minishell: %s: Permission denied\n", tokens->next->content);
 		*fail = TRUE;
-		return (tokens);
 	}
-	return (tokens->next);
+}
+
+char	*get_tmp_name(void)
+{
+	char	*arr;
+	char	*n;
+	size_t	i;
+
+	i = 1;
+	n = _itoa(i++);
+	arr = _strjoin(_strdup("/tmp/tmp"), n);
+	while (!access(arr, F_OK))
+	{
+		free(arr);
+		n = _itoa(i++);
+		arr = _strjoin(_strdup("/tmp/tmp"), n);
+	}
+	return (arr);
+}                                                                     
+
+void	handle_heredoc(t_token *tokens, int *fd, t_bool *fail)
+{
+	char	*tmp_name;
+	char	*input;
+
+	tmp_name = get_tmp_name();
+	printf("%s\n", tmp_name);
+	*fd = open(tmp_name, O_RDWR | O_CREAT);
+	free(tmp_name);
+	if (*fd == -1)
+	{
+		printf("minishell: Something went wrong with heredoc\n");
+		*fail = TRUE;
+		return ;
+	}	
+	input = readline(">");
+	while (!_strcmp(input, tokens->next->content))
+	{
+		write(*fd, input, _strlen(input));
+		free(input);
+		input = readline(">");
+	}
+	free(input);
 }

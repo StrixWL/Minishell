@@ -6,7 +6,7 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 20:36:24 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/13 13:20:24 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/13 18:01:47 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,12 @@ t_token	*handle_redirections(t_token *tokens, int *fd, t_bool *fail,
 		handle_redir_out(tokens, fd, fail, append);
 	else if (tokens->type == REDIR_IN)
 		handle_redir_in(tokens, fd, fail);
+	else if (tokens->type == HEREDOC)
+		handle_heredoc(tokens, fd, fail);
 	return (tokens->next);
 }
+
+
 
 t_command	*parse(t_token *tokens, t_bool *fail)
 {

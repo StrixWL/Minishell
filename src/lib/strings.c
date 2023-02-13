@@ -6,7 +6,7 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 18:05:17 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/10 17:44:56 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/13 19:05:46 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,6 @@ size_t	_strlen(char *s)
 	while (*p)
 		p++;
 	return ((p - s) / sizeof(char));
-}
-
-void	*_malloc(size_t size)
-{
-	char	*arr;
-
-	arr = malloc(size);
-	if (!arr)
-		exit(1);
-	return (arr);
 }
 
 int	_strcmp(char *s1, char *s2)
@@ -72,5 +62,30 @@ char	*_strjoin(char *s1, char *s2)
 		*p++ = *s2++;
 	free(s1 - len1 * sizeof(char));
 	free(s2 - (len2 + 1) * sizeof(char));
+	return (arr);
+}
+
+char	*_itoa(size_t n)
+{
+	char	*arr;
+	int		size;
+	int		k;
+
+	k = n;
+	if (!k)
+		size = 1;
+	while (k)
+	{
+		k /= 10;
+		size++;
+	}
+	arr = _malloc((sizeof(char) + 1) * size);
+    arr[size--] = 0;
+    arr[size] = 48;
+	while (n)
+	{
+		arr[size--] = n % 10 + 48;
+		n /= 10;
+	}
 	return (arr);
 }

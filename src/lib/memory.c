@@ -6,7 +6,7 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 20:36:44 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/11 18:39:06 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/13 16:31:30 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,14 @@ void	free_commands(t_command *commands)
 		free(commands);
 		commands = next;
 	}
+}
+
+void	*_malloc(size_t size)
+{
+	char	*arr;
+
+	arr = malloc(size);
+	if (!arr)
+		exit(1);
+	return (arr);
 }
