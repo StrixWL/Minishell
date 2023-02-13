@@ -9,6 +9,7 @@ SRC_FILES=		main.c \
 				src/syntax_checker.c \
 				src/expander.c \
 				src/parser.c \
+				src/redirections.c \
 				src/lib/memory.c \
 				src/lib/strings.c
 OBJ_FILES=		$(SRC_FILES:.c=.o)
