@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
+/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:48:32 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/13 19:22:46 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/13 22:38:09 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,47 +46,36 @@ void	handle_redir_in(t_token *tokens, int *fd, t_bool *fail)
 			printf("minishell: %s: Permission denied\n", tokens->next->content);
 		*fail = TRUE;
 	}
-}
-
-char	*get_tmp_name(void)
-{
-	char	*arr;
-	char	*n;
-	size_t	i;
-
-	i = 1;
-	n = _itoa(i++);
-	arr = _strjoin(_strdup("/tmp/tmp"), n);
-	while (!access(arr, F_OK))
-	{
-		free(arr);
-		n = _itoa(i++);
-		arr = _strjoin(_strdup("/tmp/tmp"), n);
-	}
-	return (arr);
-}                                                                     
+}                                                         
 
 void	handle_heredoc(t_token *tokens, int *fd, t_bool *fail)
 {
-	char	*tmp_name;
 	char	*input;
+	int		fdd[2];
 
-	tmp_name = get_tmp_name();
-	printf("%s\n", tmp_name);
-	*fd = open(tmp_name, O_RDWR | O_CREAT);
-	free(tmp_name);
-	if (*fd == -1)
+	if (pipe(fdd))
 	{
 		printf("minishell: Something went wrong with heredoc\n");
 		*fail = TRUE;
 		return ;
 	}	
 	input = readline(">");
-	while (!_strcmp(input, tokens->next->content))
+	while (input && !_strcmp(input, tokens->next->content))
 	{
-		write(*fd, input, _strlen(input));
+		write(fdd[1], input, _strlen(input));
 		free(input);
 		input = readline(">");
 	}
+	close(fdd[1]);
+	*fd = *fdd;
+	if (!input)
+	{
+		
+		return ;
+	}
 	free(input);
 }
+
+
+// protect pipes
+//

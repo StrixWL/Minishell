@@ -8,10 +8,13 @@ SRC_FILES=		main.c \
 				src/tokenizer.c \
 				src/syntax_checker.c \
 				src/expander.c \
-				src/parser.c \
 				src/redirections.c \
+				src/parser.c \
 				src/lib/memory.c \
-				src/lib/strings.c
+				src/lib/strings.c \
+				src/exec/exec.c \
+
+				
 OBJ_FILES=		$(SRC_FILES:.c=.o)
 READLINE=		/Users/bel-amri/.brew/opt/readline/
 
@@ -20,7 +23,7 @@ all: $(NAME)
 	./minishell
 
 $(NAME): $(OBJ_FILES)
-	$(CC) $(OBJ_FILES) $(FLAGS) -lreadline -L$(READLINE)/lib -o $(NAME)
+	$(CC) $(OBJ_FILES) $(FLAGS) -lreadline -L$(READLINE)/lib -o $(NAME) src/exec/libf/libft.a
 
 %.o: %.c $(HEADERS)
 	$(CC) $(FLAGS) -I$(READLINE)/include -Iincludes -c $< -o $@

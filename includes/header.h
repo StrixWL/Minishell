@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
+/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:33:06 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/13 18:02:02 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/13 22:09:45 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <string.h>
 # include <signal.h>
 # include <fcntl.h>
+# include "../src/exec/libf/libft.h"
 
 /* general */
 typedef enum e_boolean {FALSE, TRUE}	t_bool;
@@ -97,4 +98,6 @@ void		free_tokens(t_token *tokens);
 void		free_commands(t_command *commands);
 char		*_itoa(size_t n);
 
+/* execution */
+int			exec_all(t_command *commands, char **env);
 #endif

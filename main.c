@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
+/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 21:34:36 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/12 16:52:35 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/13 22:08:59 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	print_cmds(t_command *commands)
 	}
 }
 
-static int	read_line(char *line)
+static int	read_line(char *line, char **env)
 {
 	static enum e_state	state = NORMAL;
 	t_command			*commands;
@@ -75,7 +75,7 @@ static int	read_line(char *line)
 	fail = FALSE;
 	commands = parse(tokens, &fail);
 	if (!fail)
-		print_cmds(commands); // here is where u should init the execution
+		exec_all(commands, env); // here is where u should init the execution
 	// fail == true la kant lcommand mkhwra
 	free_commands(commands);
 	free_tokens(tokens);
@@ -83,10 +83,12 @@ static int	read_line(char *line)
 	return (0);
 }
 
-int	main(void)
+int	main(int ac, char **av, char **env)
 {
+	(void)ac;
+	(void)av;
 	printf("%d\n", getpid());
 	capture_signals();
 	while (1)
-		read_line(readline("XD> "));
+		read_line(readline("XD> "), env);
 }
