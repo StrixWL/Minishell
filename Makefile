@@ -1,5 +1,5 @@
 NAME=			minishell
-FLAGS=			-Wall -Werror -Wextra
+FLAGS=			-Wall -Werror -Wextra -g -fsanitize=address,undefined
 CC=				cc
 HEADERS=		includes/header.h
 SRC_DIR=		src

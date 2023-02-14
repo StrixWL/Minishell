@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 15:14:57 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/13 22:27:57 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/14 19:04:17 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	get_paths(char *ev[], char ***paths)
 	int	i;
 
 	i = 0;
+	
 	while (ft_strncmp(ev[i], "PATH=", 5))
 		i++;
 	*paths = ft_split(&ev[i][5], ':');
@@ -67,6 +68,8 @@ int	check_exist(char **paths, char *cmd)
 {
 	char	*s;
 
+	if (!cmd)
+		return (1);
 	if (!ft_strchr(cmd, '/'))
 	{
 		while (*paths)
@@ -92,6 +95,8 @@ int	check_executable(char **paths, char *cmd)
 {
 	char	*s;
 
+	if (!cmd)
+		return (1);
 	if (!ft_strchr(cmd, '/'))
 	{
 		while (*paths)
@@ -201,3 +206,10 @@ int	exec_all(t_command *commands, char **env)
 // the exit code of ctl-c is 130
 // the exit code of ctl-\ is 131
 // close the pipe
+
+// OLDPWD
+
+
+// heredoc expansion and new line
+// if null dont add to histry
+// add funtion of env

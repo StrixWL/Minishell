@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strings.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
+/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 18:05:17 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/13 19:05:46 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/14 18:09:55 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*_strdup(char *s)
 	char	*arr;
 	char	*p;
 
-	arr = _malloc(_strlen(s) * sizeof(char));
+	arr = _malloc((_strlen(s) + 1)  * sizeof(char));
 	p = arr;
 	while (*s)
 		*arr++ = *s++;

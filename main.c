@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 21:34:36 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/13 22:08:59 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/14 18:37:58 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ static int	read_line(char *line, char **env)
 
 int	main(int ac, char **av, char **env)
 {
+	if (!env)
+		
 	(void)ac;
 	(void)av;
 	printf("%d\n", getpid());
