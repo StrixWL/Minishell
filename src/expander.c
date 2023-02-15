@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
+/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:17:04 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/11 22:02:16 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/15 19:41:41 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	replace_vars(t_token *tokens)
 				value = _strdup("$");
 			else
 			{
-				if (getenv(tokens->content))
-					value = _strdup(getenv(tokens->content));
+				if (get_var(tokens->content))
+					value = _strdup(get_var(tokens->content));
 				else
 					value = _strdup("");
 			}

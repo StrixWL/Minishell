@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 15:14:57 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/14 19:04:17 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/15 19:53:00 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,9 @@ void	free_paths(char **paths)
 	}
 }
 
-void	get_paths(char *ev[], char ***paths)
+void	get_paths(char ***paths)
 {
-	int	i;
-
-	i = 0;
-	
-	while (ft_strncmp(ev[i], "PATH=", 5))
-		i++;
-	*paths = ft_split(&ev[i][5], ':');
+	*paths = ft_split(get_var("PATH"), ':');
 }
 
 void	dups(t_command *commands, int *pip, int *pip1)
@@ -157,7 +151,7 @@ int	execute_commands(t_command *commands, char **env, int *pip, int *pip1)
 	{
 		if (pip1[0])
 			close(pip1[0]);
-		get_paths(env, &paths);
+		get_paths(&paths);
 		if (check_exist(paths, *(commands->elements)))
 			exit (127);
 		if (check_executable(paths, *(commands->elements)))
@@ -206,9 +200,11 @@ int	exec_all(t_command *commands, char **env)
 // the exit code of ctl-c is 130
 // the exit code of ctl-\ is 131
 // close the pipe
-
+// delete fsanitize
 // OLDPWD
-
+// if cd fails it should return 1
+//  env var (fix)
+// handle redirection to a variable that doesn't exist && a variable that exist
 
 // heredoc expansion and new line
 // if null dont add to histry

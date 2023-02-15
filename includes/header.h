@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:33:06 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/13 22:09:45 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/15 19:41:23 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,18 @@ void		tokenize(char **line, t_token **tokens, enum e_state *state);
 /* syntax checker */
 t_bool		syntax_check(t_token *tokens);
 t_bool		is_redirection(enum e_type type);
+
+/* environment */
+typedef struct s_env
+{
+    char            *property;
+    char            *value;
+    struct s_env    *next;
+}                    t_env;
+
+void        fetch_env(t_env **env, char **environment);
+void        set_var(char *prop, char *value);
+char        *get_var(char *property);
 
 /* expander */
 void		expand(t_token **tokens);

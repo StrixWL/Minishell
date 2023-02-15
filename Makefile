@@ -10,6 +10,7 @@ SRC_FILES=		main.c \
 				src/expander.c \
 				src/redirections.c \
 				src/parser.c \
+				src/environment.c \
 				src/lib/memory.c \
 				src/lib/strings.c \
 				src/exec/exec.c \
