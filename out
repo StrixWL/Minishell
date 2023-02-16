@@ -7,4 +7,7 @@ includes
 main.c
 main.o
 minishell
+minishell.dSYM
+moh
+out
 src

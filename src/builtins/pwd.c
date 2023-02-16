@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 17:46:56 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/15 17:49:51 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/15 20:13:38 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	ft_pwd(void)
 	{
 		ft_putstr_fd(cwd, 1);
 		ft_putchar_fd('\n', 1);
-		return (0);
+		exit (0);
 	}
 	else
-		return (1);
+		exit (1);
 }

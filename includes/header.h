@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:33:06 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/15 19:41:23 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/16 17:04:10 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <string.h>
 # include <signal.h>
 # include <fcntl.h>
+# include <limits.h>
 # include "../src/exec/libf/libft.h"
 
 /* general */
@@ -112,4 +113,9 @@ char		*_itoa(size_t n);
 
 /* execution */
 int			exec_all(t_command *commands, char **env);
+
+/*builtins*/
+int			ft_pwd(void);
+int			ft_echo(char **args);
+void		ft_exit(char **args);
 #endif

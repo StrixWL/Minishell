@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 20:16:52 by yabidi            #+#    #+#             */
-/*   Updated: 2022/10/23 15:08:05 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/16 16:36:17 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ int	ft_atoi(const char *str)
 	if (*str == '-' || *str == '+')
 		if (*str++ == '-')
 			sign = -1;
-	if (check1((char **)&str) == 1)
-		return (check(sign));
 	o = my_func_strlen(str);
 	res = 0;
 	while (*str <= '9' && *str >= '0' )

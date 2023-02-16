@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 11:46:16 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/15 17:40:11 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/15 20:18:57 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,13 @@ int				ft_echo(char **args)
     while(args && *args)
     {
         ft_putstr_fd(*args, 1);
+        if (*(args + 1))
+            ft_putchar_fd(' ', 1);
         args++;
     }
     if (!check_option)
         ft_putstr_fd("\n", 1);
-    return (0);
+    exit (0);
 }
 
 

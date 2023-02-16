@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 15:14:57 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/15 19:53:00 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/16 18:58:14 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,9 @@ int	check_exist(char **paths, char *cmd)
 	else
 		if (access(cmd, F_OK) == 0)
 			return (0);
-	perror("");
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": command not found\n", 2);
 	return (1);
 }
 
@@ -108,7 +110,9 @@ int	check_executable(char **paths, char *cmd)
 	else
 		if (access(cmd, X_OK) == 0)
 			return (0);
-	perror("");
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": Permission denied\n", 2);
 	return (1);
 }
 
@@ -131,6 +135,15 @@ void get_path_and_execute(char **paths, t_command *commands, char **env)
 		s = *(commands->elements);
 	if (execve(s, commands->elements, env) != 0)
 		exit(1);
+}
+
+int	is_builtin(char **cmd)
+{
+	if (!ft_strncmp(*cmd, "echo", 4))
+		ft_echo(++cmd);
+	else if (!ft_strncmp(*cmd, "pwd", 3))
+		ft_pwd();
+	return (-3);
 }
 
 int	wait_and_getStatus(int pid)
@@ -157,7 +170,8 @@ int	execute_commands(t_command *commands, char **env, int *pip, int *pip1)
 		if (check_executable(paths, *(commands->elements)))
 			exit (126);
 		dups(commands, pip, pip1);
-		get_path_and_execute(paths, commands, env);
+		if (is_builtin(commands->elements) == -3)
+			get_path_and_execute(paths, commands, env);
 	}
 	if (commands->input_fd != 0)
 		close(commands->input_fd);
@@ -178,6 +192,8 @@ int	exec_all(t_command *commands, char **env)
 	i = 0;
 	while (commands)
 	{
+		if (!ft_strncmp(*(commands->elements), "exit", 4))
+			ft_exit(++commands->elements);
 		pip[0] = pip1[0];	
 		if (commands->next)
 			pipe(pip1);
@@ -197,6 +213,7 @@ int	exec_all(t_command *commands, char **env)
 
 // 258 if there's a syntax problem with pipes
 // check exit file if open failed
+// ctl-d when a program is already running
 // the exit code of ctl-c is 130
 // the exit code of ctl-\ is 131
 // close the pipe
@@ -205,7 +222,8 @@ int	exec_all(t_command *commands, char **env)
 // if cd fails it should return 1
 //  env var (fix)
 // handle redirection to a variable that doesn't exist && a variable that exist
+// handle overflow in exit
 
+// echo $?
 // heredoc expansion and new line
 // if null dont add to histry
-// add funtion of env
