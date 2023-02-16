@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 20:16:52 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/16 19:33:31 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/16 19:53:52 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ static size_t	my_func_strlen(const char *s)
 }
 
 
-int	ft_atoi(const char *str)
+unsigned long long	ft_atoi(const char *str)
 {
 	int			sign;
 	int			tem;
-	long long	res;
-	long long	o;
+	unsigned long long	res;
+	unsigned long long	o;
 
 	sign = 1;
 	while ((*str >= 9 && *str <= 13) || *str == 32)

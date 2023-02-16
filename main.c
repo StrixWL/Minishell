@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 21:34:36 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/16 18:51:12 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/16 20:52:31 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@
 // 	}
 // }
 
-static int	read_line(char *line, char **env)
+static int	read_line(char *line, char **env, t_env *lenv)
 {
 	static enum e_state	state = NORMAL;
 	t_command			*commands;
@@ -77,7 +77,7 @@ static int	read_line(char *line, char **env)
 	commands = parse(tokens, &fail);
 	// print_cmds(commands);
 	if (!fail)
-		exec_all(commands, env); // here is where u should init the execution
+		exec_all(commands, lenv); // here is where u should init the execution
 	// fail == true la kant lcommand mkhwra
 	free_commands(commands);
 	free_tokens(tokens);
@@ -91,6 +91,7 @@ int	main(int ac, char **av, char **environment)
 {
 	t_env	*env;
 
+	// execve("/usr/bin/clear", NULL, NULL);
 	env = NULL;
 	fetch_env(&env, environment);
 	(void)ac;
@@ -98,5 +99,5 @@ int	main(int ac, char **av, char **environment)
 	printf("%d\n", getpid());
 	capture_signals();
 	while (1)
-		read_line(readline("XD> "), environment);
+		read_line(readline("XD> "), environment, env);
 }

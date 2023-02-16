@@ -6,11 +6,13 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 18:25:56 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/16 19:32:41 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/16 20:03:38 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// int	ft_cd(char **args)
-// {
-    
-// }
+int	ft_cd(char **args)
+{
+    if (!(*args))
+        move_home();
+    else if (**args == '-')
+}

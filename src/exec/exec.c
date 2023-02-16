@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 15:14:57 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/16 18:58:14 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/16 21:03:16 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,48 @@ int	check_executable(char **paths, char *cmd)
 	return (1);
 }
 
-void get_path_and_execute(char **paths, t_command *commands, char **env)
+char **get_env_array(t_env *env)
+{
+	t_env *temp;
+	char **result;
+	int	n_var;
+	int i;
+
+	i = 0;
+	temp = env;
+	n_var = 0;
+	while (temp)
+	{
+		n_var++;
+		temp = temp->next;
+	}
+	result = malloc((n_var + 1) * sizeof(char *));
+	result[n_var + 1] = NULL;
+	while (i < n_var)
+	{
+		*(result + i) = malloc((ft_strlen(env->property)
+					+ ft_strlen(env->value) + 2) * sizeof(char));
+		ft_memcpy((*(result + i)), env->property, ft_strlen(env->property));
+		ft_memcpy((*(result + i)) + ft_strlen(env->property), "=", 1);
+		ft_strlcpy((*(result + i)) + ft_strlen(env->property) + 1,
+			env->value, ft_strlen(env->value) + 1);
+		env = env->next;
+		i++;
+	}
+	return (result);
+}
+
+void get_path_and_execute(char **paths, t_command *commands, t_env *env)
 {
 	char	*s;
+	char	**nenv;
 
+	nenv = get_env_array(env);
+	// while(*nenv)
+	// {
+	// 	printf("%s\n", *nenv);
+	// 	nenv++;
+	// }
 	if (!ft_strchr(*(commands->elements), '/'))
 	{
 		while (*paths)
@@ -133,7 +171,7 @@ void get_path_and_execute(char **paths, t_command *commands, char **env)
 	}
 	else
 		s = *(commands->elements);
-	if (execve(s, commands->elements, env) != 0)
+	if (execve(s, commands->elements, nenv) != 0)
 		exit(1);
 }
 
@@ -154,7 +192,7 @@ int	wait_and_getStatus(int pid)
 	return (WEXITSTATUS(wstatus));
 }
 
-int	execute_commands(t_command *commands, char **env, int *pip, int *pip1)
+int	execute_commands(t_command *commands, t_env *env, int *pip, int *pip1)
 {
 	int		pid;
 	char	**paths;
@@ -180,7 +218,7 @@ int	execute_commands(t_command *commands, char **env, int *pip, int *pip1)
 	return (0);
 }
 
-int	exec_all(t_command *commands, char **env)
+int	exec_all(t_command *commands, t_env *env)
 {
 	int	pip1[2];
 	int	pip[2];
