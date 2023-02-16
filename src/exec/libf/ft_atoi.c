@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 20:16:52 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/16 16:36:17 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/16 19:33:31 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,39 +27,6 @@ static size_t	my_func_strlen(const char *s)
 	return (res);
 }
 
-static int	check1(char **str)
-{
-	int		i;
-	char	*ptr;
-
-	i = 0;
-	while (**str == '0')
-		(*str)++;
-	ptr = *str;
-	while (ptr)
-	{
-		while (*ptr >= '0' && *ptr <= '9')
-		{
-			ptr++;
-			if (!(*ptr >= '0' && *ptr <= '9') || !ptr)
-			{
-				if (i >= 19)
-					return (1);
-				return (0);
-			}
-			i++;
-		}
-		ptr++;
-	}
-	return (0);
-}
-
-static int	check(int sign)
-{
-	if (sign < 0)
-		return (0);
-	return (-1);
-}
 
 int	ft_atoi(const char *str)
 {
