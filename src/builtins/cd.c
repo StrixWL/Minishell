@@ -6,13 +6,13 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 18:25:56 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/18 10:12:06 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/18 17:54:39 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/header.h"
 
-void	set_env_var(char *property, char *value, t_env *env)
+void	set_env_var(char *property, char *value, t_env *env, int i)
 {
 	t_env	*temp;
 	t_env	*new;
@@ -24,8 +24,10 @@ void	set_env_var(char *property, char *value, t_env *env)
 	if (temp && !ft_strncmp(property, temp->property, ft_strlen(property)))
 	{
 		temp2 = temp->value;
-		if (value)
+		if (value && i == 0)
 			temp->value = ft_strdup(value);
+		else if (value && i == 1)
+			temp->value = ft_strjoin(temp->value, value);
 		free(temp2);
 	}
 	else
@@ -60,9 +62,9 @@ int normal_cd(char **args, t_env *env)
 	getcwd(cwd, 1024);
 	if (!chdir(*args))
 	{
-		set_env_var("OLDPWD", cwd, env);
+		set_env_var("OLDPWD", cwd, env, 0);
 		getcwd(cwd, 1024);
-		set_env_var("PWD", cwd, env);
+		set_env_var("PWD", cwd, env, 0);
 		return(0);
 	}
 	else 
@@ -82,9 +84,9 @@ int	just_cd(t_env *env)
 	getcwd(cwd, 1024);
 	if(chdir(get_env_var("HOME", env)))
 		return(1);
-	set_env_var("OLDPWD", cwd, env);
+	set_env_var("OLDPWD", cwd, env, 0);
 	getcwd(cwd, 1024);
-	set_env_var("PWD", cwd, env);
+	set_env_var("PWD", cwd, env, 0);
 	return(0);
 }
 
@@ -97,9 +99,9 @@ int	previous_one(t_env *env)
 	{
 		if (chdir(get_env_var("OLDPWD", env)))
 			return (1);
-		set_env_var("OLDPWD", cwd, env);
+		set_env_var("OLDPWD", cwd, env, 0);
 		getcwd(cwd, 1024);
-		set_env_var("PWD", cwd, env);
+		set_env_var("PWD", cwd, env, 0);
 		ft_putstr_fd(cwd, 1);
 		write(1, "\n", 1);
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 15:14:57 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/18 10:29:21 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/18 16:02:51 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,22 +214,19 @@ int	execute_commands(t_command *commands, t_env *env, int *pip, int *pip1)
 	char	**paths;
 	char	**nenv;
 
-	if (!ft_strncmp(*(commands->elements), "cd", 2))
-		return (ft_cd((commands->elements + 1), env));
-
 	nenv = get_env_array(env);
 	pid = fork();
 	if (!pid)
 	{
 		if (pip1[0])
 			close(pip1[0]);
+		dups(commands, pip, pip1);
 		is_builtin(commands->elements, env);
 		get_paths(&paths);
 		if (check_exist(paths, *(commands->elements)))
 			exit (127);
 		if (check_executable(paths, *(commands->elements)))
 			exit (126);
-		dups(commands, pip, pip1);
 		get_path_and_execute(paths, commands, nenv);
 	}
 	free_array(nenv);
@@ -237,6 +234,42 @@ int	execute_commands(t_command *commands, t_env *env, int *pip, int *pip1)
 		close(commands->input_fd);
 	if (!commands->next)
 		return (wait_and_getStatus(pid));
+	return (0);
+}
+
+int	check_main_process_builtin(char *commands)
+{
+	if (!ft_strncmp(commands, "exit", 4))
+		return (1);
+	if (!ft_strncmp(commands, "unset", 5))
+		return (1);
+	if (!ft_strncmp(commands, "export", 5))
+		return (1);
+	if (!ft_strncmp(commands, "cd", 2))
+		return (1);
+	return(0);
+}
+
+int	main_process_builtin(t_command *commands, t_env *env, int *pip, int *pip1)
+{
+	int save_in;
+	int	save_out;
+	int res;
+
+	res = 0;
+	save_in = dup(0);
+	save_out = dup(1);
+	dups(commands, pip, pip1);
+	if (!ft_strncmp(*(commands->elements), "exit", 4))
+		ft_exit(++commands->elements);
+	if (!ft_strncmp(*(commands->elements), "unset", 5))
+		res = ft_unset(*((commands->elements + 1)), &env);
+	if (!ft_strncmp(*(commands->elements), "export", 5))
+		res = ft_export(((commands->elements + 1)), env);
+	if (!ft_strncmp(*(commands->elements), "cd", 2))
+		 res = ft_cd((commands->elements + 1), env);
+	dup2(save_in, 0);
+	dup2(save_out, 1);
 	return (0);
 }
 
@@ -252,24 +285,15 @@ int	exec_all(t_command *commands, t_env *env)
 	i = 0;
 	while (commands)
 	{
-		if (!ft_strncmp(*(commands->elements), "exit", 4))
-			ft_exit(++commands->elements);
-		if (!ft_strncmp(*(commands->elements), "unset", 5))
-		{
-			ret = ft_unset(*((commands->elements + 1)), &env);
-			break ;
-		}
-		if (!ft_strncmp(*(commands->elements), "export", 5))
-		{
-			ret = ft_export(((commands->elements + 1)), env);
-			break ;
-		}
 		pip[0] = pip1[0];
 		if (commands->next)
 			pipe(pip1);
 		else
 			pip1[0] = 0;
-		ret = execute_commands(commands, env, pip, pip1);
+		if (check_main_process_builtin(*(commands->elements)))
+			ret = main_process_builtin(commands, env, pip, pip1);
+		else
+			ret = execute_commands(commands, env, pip, pip1);
 		commands = commands->next;
 		if (pip1[1])
 			close(pip1[1]);

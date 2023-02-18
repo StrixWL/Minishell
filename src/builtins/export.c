@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 18:06:17 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/18 09:56:48 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/18 18:58:09 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@ int	set_vars(char *arg, t_env *env)
 	int		i;
 	char	*value;
 	char	*property;
+	int		append;
 
+	append = 0;
 	i = 0;
-	while (*(arg + i) && (*(arg + i)) != '=')
+	while (*(arg + i) && (*(arg + i)) != '=' && !((*(arg + i)) == '+' && (*(arg + i + 1)) == '='))
 	{
 		if (!((*(arg + i)) >= '0' && (*(arg + i)) <= '9' && i != 0) && !((*(arg + i)) == '_')
 			&& !((*(arg + i)) >= 'a' && (*(arg + i)) <= 'z')
@@ -48,17 +50,32 @@ int	set_vars(char *arg, t_env *env)
 		}
 		i++;
 	}
+	if (*(arg + i) == '+')
+	{
+		i++;
+		append = 1;
+	}
 	if (*(arg + i) == '=')
 	{
 		value = malloc((ft_strlen((arg + i + 1)) + 1) * sizeof(char));
 		if (!value)
 			exit(1);
 		ft_strlcpy(value, (arg + i + 1), ft_strlen((arg + i)));
-		property = malloc((ft_strlen(arg + i)) * sizeof(char));
-		if (!value)
-			exit(1);
-		ft_strlcpy(property, arg, i + 1);
-		set_env_var(property, value, env);
+		if (append == 1)
+		{
+			property = malloc((ft_strlen(arg) - ft_strlen(arg + i) ) * sizeof(char));
+			if (!property)
+				exit(1);
+			ft_strlcpy(property, arg, ((ft_strlen(arg) - ft_strlen(arg + i)) ));
+		}
+		else
+		{
+			property = malloc((ft_strlen(arg) - ft_strlen(arg + i) + 1) * sizeof(char));
+			if (!property)
+				exit(1);
+			ft_strlcpy(property, arg, ((ft_strlen(arg) - ft_strlen(arg + i)) + 1));
+		}
+		set_env_var(property, value, env, append);
 		free(value);
 		free(property);
 	}
