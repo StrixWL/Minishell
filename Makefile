@@ -1,5 +1,5 @@
 NAME=			minishell
-FLAGS=			-Wall -Werror -Wextra -g #-fsanitize=address,undefined
+FLAGS=			-Wall -Werror -Wextra #-g -fsanitize=address,undefined
 CC=				cc
 HEADERS=		includes/header.h
 SRC_DIR=		src
@@ -17,6 +17,9 @@ SRC_FILES=		main.c \
 				src/builtins/echo.c \
 				src/builtins/pwd.c \
 				src/builtins/exit.c \
+				src/builtins/cd.c \
+				src/builtins/unset.c \
+				src/builtins/export.c \
 				
 OBJ_FILES=		$(SRC_FILES:.c=.o)
 READLINE=		/Users/bel-amri/.brew/opt/readline/

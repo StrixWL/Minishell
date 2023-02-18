@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 21:34:36 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/16 20:52:31 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/17 18:49:02 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,8 @@ int	main(int ac, char **av, char **environment)
 	printf("%d\n", getpid());
 	capture_signals();
 	while (1)
+	{
 		read_line(readline("XD> "), environment, env);
+		
+	}
 }

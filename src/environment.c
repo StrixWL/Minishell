@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:04:53 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/15 19:45:32 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/17 15:07:23 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void    fetch_env(t_env **env, char **environment)
         while (*p != '=')
             p++;
         *p = 0;
-        set_var(*environment, ++p);
+        set_var(_strdup(*environment), _strdup(++p));
         environment++;
     }
 }

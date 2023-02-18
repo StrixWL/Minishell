@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 19:49:42 by yabidi            #+#    #+#             */
-/*   Updated: 2022/10/20 16:35:48 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/17 11:44:31 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	ft_strncmp(const char *s1, const char *s2, unsigned int n)
 	st1 = (unsigned char *)s1;
 	st2 = (unsigned char *)s2;
 	i = 0;
+	if (!s1)
+		return (1);
 	while (st1[i] != '\0' && st2[i] != '\0' && i < n)
 	{
 		if (st1[i] != st2[i])

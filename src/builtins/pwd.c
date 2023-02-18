@@ -6,16 +6,15 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 17:46:56 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/15 20:13:38 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/18 10:22:49 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/header.h"
 
-int	ft_pwd(void)
+int	ft_pwd()
 {
 	char	cwd[1024];
-
 	if (getcwd(cwd, 1024))
 	{
 		ft_putstr_fd(cwd, 1);
