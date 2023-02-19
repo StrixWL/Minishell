@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 21:34:36 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/17 18:49:02 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/19 12:58:52 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ int	main(int ac, char **av, char **environment)
 {
 	t_env	*env;
 
-	// execve("/usr/bin/clear", NULL, NULL);
 	env = NULL;
 	fetch_env(&env, environment);
 	(void)ac;
@@ -99,8 +98,5 @@ int	main(int ac, char **av, char **environment)
 	printf("%d\n", getpid());
 	capture_signals();
 	while (1)
-	{
 		read_line(readline("XD> "), environment, env);
-		
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 18:25:56 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/18 17:54:39 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/19 13:05:17 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,8 @@ char	*get_env_var(char *property, t_env *env)
 		return (env->value);
 }
 
-int normal_cd(char **args, t_env *env)
+int	normal_cd(char **args, t_env *env)
 {
-	(void)env;
 	char	cwd[1024];
 
 	getcwd(cwd, 1024);
@@ -65,29 +64,28 @@ int normal_cd(char **args, t_env *env)
 		set_env_var("OLDPWD", cwd, env, 0);
 		getcwd(cwd, 1024);
 		set_env_var("PWD", cwd, env, 0);
-		return(0);
+		return (0);
 	}
-	else 
+	else
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
 		ft_putstr_fd(*args, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
-		return(1);
+		return (1);
 	}
 }
 
 int	just_cd(t_env *env)
 {
-	(void)env;
 	char	cwd[1024];
 
 	getcwd(cwd, 1024);
-	if(chdir(get_env_var("HOME", env)))
-		return(1);
+	if (chdir(get_env_var("HOME", env)))
+		return (1);
 	set_env_var("OLDPWD", cwd, env, 0);
 	getcwd(cwd, 1024);
 	set_env_var("PWD", cwd, env, 0);
-	return(0);
+	return (0);
 }
 
 int	previous_one(t_env *env)
@@ -109,22 +107,20 @@ int	previous_one(t_env *env)
 	else
 	{
 		ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
-		return(1);
+		return (1);
 	}
 }
 
 int	ft_cd(char **args, t_env *env)
 {
-
-    if (!(*args))
+	if (!(*args))
 		return (just_cd(env));
-	else if(*(args) && (**args) == '-')
+	else if (*(args) && (**args) == '-')
 		return (previous_one(env));
 	else
 		return (normal_cd(args, env));
-	return(0);
+	return (0);
 }
 // exit - (done)
 // segvault in here_doc (done)
 // here_doc  << "$USER" (no expantion should happen in the delimiter)
-

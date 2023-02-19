@@ -6,13 +6,13 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 17:46:56 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/18 19:15:57 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/19 13:09:12 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/header.h"
 
-int	ft_pwd()
+int	ft_pwd(void)
 {
 	char	cwd[PATH_MAX];
 

@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 15:14:57 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/18 16:02:51 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/19 13:12:06 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,10 @@ void	dups(t_command *commands, int *pip, int *pip1)
 		dup2(pip[0], 0);
 	else if (commands->input_fd != 0)
 		dup2(commands->input_fd, 0);
-
 	if (commands->next && commands->output_fd == 1)
 		dup2(pip1[1], 1);
 	else if (commands->output_fd != 1)
 		dup2(commands->output_fd, 1);
-
 }
 
 char	*join_path_cmd(char *path, char *cmd)
@@ -118,10 +116,10 @@ int	check_executable(char **paths, char *cmd)
 
 char **get_env_array(t_env *env)
 {
-	t_env *temp;
-	char **result;
-	int	n_var;
-	int i;
+	t_env	*temp;
+	char	**result;
+	int		n_var;
+	int		i;
 
 	temp = env;
 	i = 0;
@@ -133,14 +131,14 @@ char **get_env_array(t_env *env)
 	}
 	result = malloc((n_var + 1) * sizeof(char *));
 	if (!*(result + i))
-			return(NULL);
+		return (NULL);
 	result[n_var] = NULL;
 	while (i < n_var)
 	{
 		*(result + i) = malloc((ft_strlen(env->property)
 					+ ft_strlen(env->value) + 2) * sizeof(char));
 		if (!*(result + i))
-			return(NULL);
+			return (NULL);
 		ft_memcpy((*(result + i)), env->property, ft_strlen(env->property));
 		ft_memcpy((*(result + i)) + ft_strlen(env->property), "=", 1);
 		ft_strlcpy((*(result + i)) + ft_strlen(env->property) + 1,
@@ -184,8 +182,8 @@ int	is_builtin(char **cmd, t_env *env)
 
 void free_array(char **nenv)
 {
-	char **temp;
-	char **temp2;
+	char	**temp;
+	char	**temp2;
 
 	temp = nenv;
 	if (nenv)
@@ -196,7 +194,7 @@ void free_array(char **nenv)
 			free(*nenv);
 			nenv = temp2;
 		}
-	free(temp);
+		free (temp);
 	}
 }
 
@@ -247,7 +245,7 @@ int	check_main_process_builtin(char *commands)
 		return (1);
 	if (!ft_strncmp(commands, "cd", 2))
 		return (1);
-	return(0);
+	return (0);
 }
 
 int	main_process_builtin(t_command *commands, t_env *env, int *pip, int *pip1)
@@ -267,7 +265,7 @@ int	main_process_builtin(t_command *commands, t_env *env, int *pip, int *pip1)
 	if (!ft_strncmp(*(commands->elements), "export", 5))
 		res = ft_export(((commands->elements + 1)), env);
 	if (!ft_strncmp(*(commands->elements), "cd", 2))
-		 res = ft_cd((commands->elements + 1), env);
+		res = ft_cd((commands->elements + 1), env);
 	dup2(save_in, 0);
 	dup2(save_out, 1);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:33:06 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/18 17:53:28 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/19 13:07:43 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,10 @@ char		*_itoa(size_t n);
 int			exec_all(t_command *commands, t_env *env);
 char		**get_env_array(t_env *env);
 char		*get_env_var(char *property, t_env *env);
-void	set_env_var(char *property, char *value, t_env *env , int i);
+void		set_env_var(char *property, char *value, t_env *env , int i);
 
 /*builtins*/
-int			ft_pwd();
+int			ft_pwd(void);
 int			ft_echo(char **args);
 void		ft_exit(char **args);
 int			ft_cd(char **args, t_env *env);
