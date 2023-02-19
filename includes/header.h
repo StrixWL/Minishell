@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:33:06 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/19 13:07:43 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/19 15:08:48 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@
 typedef enum e_boolean {FALSE, TRUE}	t_bool;
 
 /* signals */
-void		capture_signals(void);
+int			capture_signals(void);
+t_bool		is_execution_running(t_bool *execution_is_running);
 
 /* tokenizer */
 // ' ', '\n', '\'', '"', '\\', '$', '|', '<', '>', '<<', '>>', 
@@ -82,7 +83,7 @@ char        *get_var(char *property);
 
 /* expander */
 void		expand(t_token **tokens);
-
+void		replace_vars(t_token *tokens);
 /* parser */
 typedef struct s_command
 {
@@ -99,7 +100,7 @@ t_command	*parse(t_token *tokens, t_bool *fail);
 void	handle_redir_out(t_token *tokens, int *fd, t_bool *fail,
 					t_bool *append);
 void	handle_redir_in(t_token *tokens, int *fd, t_bool *fail);
-void	handle_heredoc(t_token *tokens, int *fd, t_bool *fail);
+int		handle_heredoc(t_token *tokens, int *fd, t_bool *fail);
 
 /* lib */
 size_t		_strlen(char *s);

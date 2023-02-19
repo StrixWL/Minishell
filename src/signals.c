@@ -6,36 +6,48 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 10:55:50 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/07 16:42:18 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/19 15:04:24 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
+t_bool	is_execution_running(t_bool *execution_is_running)
+{
+	static t_bool	*save;
+
+	if (!save)
+		save = execution_is_running;
+	return (*save);
+}
+
 static void	handler(int sig)
 {
-	if (sig == SIGINT)
+	if (!is_execution_running(NULL))
 	{
-		printf("\n");
-		rl_redisplay();
+		if (sig == SIGINT)
+		{
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			printf("\n");
+			rl_redisplay();
+		}
+		else if (sig == SIGQUIT)
+			;
 	}
+	else
+		printf("\n");
 }
 
-void	capture_signals(void)
+int	capture_signals(void)
 {
 	void	*sigint;
+	void	*sigquit;
 
+	rl_catch_signals = 0;
 	sigint = signal(SIGINT, handler);
-	if (sigint == SIG_ERR)
-	{
-		printf("Error capturing signals, exiting..");
-		exit(1);
-	}
+	sigquit = signal(SIGQUIT, handler);
+	if (sigint == SIG_ERR || sigquit == SIG_ERR)
+		return (printf("Error capturing signals, exiting.."), exit(1), 666);
+	return (22222);
 }
-
-/*
-rl_clear_history
-rl_on_new_line
-rl_replace_line
-rl_redisplay
-*/

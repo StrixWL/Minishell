@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 21:34:36 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/19 12:58:52 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/19 15:03:51 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@
 // 	}
 // }
 
-static int	read_line(char *line, char **env, t_env *lenv)
+static int	read_line(char *line, char **env, t_env *lenv, t_bool *execution_is_running)
 {
 	static enum e_state	state = NORMAL;
 	t_command			*commands;
@@ -76,27 +76,31 @@ static int	read_line(char *line, char **env, t_env *lenv)
 	fail = FALSE;
 	commands = parse(tokens, &fail);
 	// print_cmds(commands);
+	*execution_is_running = TRUE;
 	if (!fail)
-		exec_all(commands, lenv); // here is where u should init the execution
-	// fail == true la kant lcommand mkhwra
+		exec_all(commands, lenv);
+	*execution_is_running = FALSE;
 	free_commands(commands);
 	free_tokens(tokens);
 	free(line);
 	return (0);
 }
 
-
-
 int	main(int ac, char **av, char **environment)
 {
 	t_env	*env;
+	t_bool	execution_is_running;
 
 	env = NULL;
 	fetch_env(&env, environment);
+	is_execution_running(&execution_is_running);
 	(void)ac;
 	(void)av;
 	printf("%d\n", getpid());
 	capture_signals();
 	while (1)
-		read_line(readline("XD> "), environment, env);
+	{
+		read_line(readline("XD> "), environment, env, &execution_is_running);
+		
+	}
 }

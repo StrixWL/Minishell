@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 17:00:37 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/16 22:12:55 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/19 15:09:50 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,41 @@ static void	special_character_handler(char **line, t_token **tokens,
 	*line += 1;
 }
 
-static void	normal_character_handler(char **line, t_token **tokens,
-									enum e_state *state, enum e_type type)
+static void	variable_handler(char **line, t_token **tokens,
+									enum e_state *state)
 {
 	t_token		*new_token;
 	char		*p1;
 	char		*p2;
 
 	new_token = _malloc(sizeof(t_token));
-	new_token->type = type;
-	if (**line == '$')
-		*line += 1;
+	new_token->type = VAR;
+	*line += 1;
+	p1 = *line;
+	while (*p1 && (((*p1 >= 'a' && *p1 <= 'z') || (*p1 >= 'A' && *p1 <= 'Z'))
+			|| (*p1 >= '0' && *p1 <= '9') || *p1 == '_'))
+		p1++;
+	p2 = _malloc(p1 - *line + sizeof(char));
+	new_token->content = p2;
+	p1 = *line;
+	while (*p1 && (((*p1 >= 'a' && *p1 <= 'z') || (*p1 >= 'A' && *p1 <= 'Z'))
+			|| (*p1 >= '0' && *p1 <= '9') || *p1 == '_'))
+		*p2++ = *p1++;
+	*p2 = 0;
+	new_token->state = *state;
+	new_node(tokens, new_token);
+	*line += _strlen(new_token->content);
+}
+
+static void	normal_character_handler(char **line, t_token **tokens,
+									enum e_state *state)
+{
+	t_token		*new_token;
+	char		*p1;
+	char		*p2;
+
+	new_token = _malloc(sizeof(t_token));
+	new_token->type = WORD;
 	p1 = *line;
 	while (*p1 && !(*p1 == ' ' || *p1 == '\n' || *p1 == '\'' || *p1 == '"'
 			|| *p1 == '\\' || *p1 == '|' || *p1 == '<'
@@ -137,10 +161,10 @@ void	tokenize(char **line, t_token **tokens, enum e_state *state)
 	else if (**line == '|')
 		special_character_handler(line, tokens, state, PIPE);
 	else if (**line == '$')
-		normal_character_handler(line, tokens, state, VAR);
+		variable_handler(line, tokens, state);
 	else if (**line == '>' || **line == '<')
 		input_output_characters_handler(line, tokens, state);
 	else
-		normal_character_handler(line, tokens, state, WORD);
+		normal_character_handler(line, tokens, state);
 	tokenize(line, tokens, state);
 }

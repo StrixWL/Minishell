@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:17:04 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/15 19:41:41 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/19 15:10:34 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	replace_vars(t_token *tokens)
 			free(tokens->content);
 			tokens->content = value;
 		}
+		if (tokens->type == VAR && tokens->state == QUOTED)
+			tokens->content = _strjoin(_strdup("$"), tokens->content);
 		tokens = tokens->next;
 	}
 }
