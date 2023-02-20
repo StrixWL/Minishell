@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 18:06:17 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/19 13:08:57 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/20 21:49:38 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ int	ft_export(char **args, t_env *env)
 	int	ret;
 
 	ret = 0;
+	if (!env)
+		return (1);
 	if (!*args)
 		return (print_env(env));
 	else

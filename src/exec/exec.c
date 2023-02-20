@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 15:14:57 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/19 13:12:06 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/20 21:33:21 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,12 @@ char	*join_path_cmd(char *path, char *cmd)
 
 int	check_exist(char **paths, char *cmd)
 {
+	DIR		*d;
 	char	*s;
 
-	if (!cmd)
-		return (1);
-	if (!ft_strchr(cmd, '/'))
+	while (cmd && *cmd == '.')
+		cmd++;
+	if (cmd && !ft_strchr(cmd, '/') && paths)
 	{
 		while (*paths)
 		{
@@ -76,9 +77,16 @@ int	check_exist(char **paths, char *cmd)
 			paths++;
 		}
 	}
-	else
+	else if(cmd)
+	{
+		while (*cmd == '/')
+			cmd++;
+		d = opendir(cmd);
+		if (d != NULL)
+			return (closedir(d), printf("minishell: %s: is a directory\n", cmd), 1);
 		if (access(cmd, F_OK) == 0)
 			return (0);
+	}
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(": command not found\n", 2);
@@ -114,6 +122,9 @@ int	check_executable(char **paths, char *cmd)
 	return (1);
 }
 
+// if i've got a directory in the input
+// if i've got a file that i don't have the right to execute
+
 char **get_env_array(t_env *env)
 {
 	t_env	*temp;
@@ -121,30 +132,34 @@ char **get_env_array(t_env *env)
 	int		n_var;
 	int		i;
 
-	temp = env;
-	i = 0;
-	n_var = 0;
-	while (temp)
+	result = NULL;
+	if (env)
 	{
-		n_var++;
-		temp = temp->next;
-	}
-	result = malloc((n_var + 1) * sizeof(char *));
-	if (!*(result + i))
-		return (NULL);
-	result[n_var] = NULL;
-	while (i < n_var)
-	{
-		*(result + i) = malloc((ft_strlen(env->property)
-					+ ft_strlen(env->value) + 2) * sizeof(char));
-		if (!*(result + i))
+		temp = env;
+		i = 0;
+		n_var = 0;
+		while (temp)
+		{
+			n_var++;
+			temp = temp->next;
+		}
+		result = malloc((n_var + 1) * sizeof(char *));
+		if (!result)
 			return (NULL);
-		ft_memcpy((*(result + i)), env->property, ft_strlen(env->property));
-		ft_memcpy((*(result + i)) + ft_strlen(env->property), "=", 1);
-		ft_strlcpy((*(result + i)) + ft_strlen(env->property) + 1,
-			env->value, ft_strlen(env->value) + 1);
-		env = env->next;
-		i++;
+		result[n_var] = NULL;
+		while (i < n_var)
+		{
+			*(result + i) = malloc((ft_strlen(env->property)
+						+ ft_strlen(env->value) + 2) * sizeof(char));
+			if (!*(result + i))
+				return (NULL);
+			ft_memcpy((*(result + i)), env->property, ft_strlen(env->property));
+			ft_memcpy((*(result + i)) + ft_strlen(env->property), "=", 1);
+			ft_strlcpy((*(result + i)) + ft_strlen(env->property) + 1,
+				env->value, ft_strlen(env->value) + 1);
+			env = env->next;
+			i++;
+		}
 	}
 	return (result);
 }
@@ -212,10 +227,10 @@ int	execute_commands(t_command *commands, t_env *env, int *pip, int *pip1)
 	char	**paths;
 	char	**nenv;
 
-	nenv = get_env_array(env);
 	pid = fork();
 	if (!pid)
 	{
+		nenv = get_env_array(env);
 		if (pip1[0])
 			close(pip1[0]);
 		dups(commands, pip, pip1);
@@ -227,7 +242,6 @@ int	execute_commands(t_command *commands, t_env *env, int *pip, int *pip1)
 			exit (126);
 		get_path_and_execute(paths, commands, nenv);
 	}
-	free_array(nenv);
 	if (commands->input_fd != 0)
 		close(commands->input_fd);
 	if (!commands->next)
@@ -261,7 +275,7 @@ int	main_process_builtin(t_command *commands, t_env *env, int *pip, int *pip1)
 	if (!ft_strncmp(*(commands->elements), "exit", 4))
 		ft_exit(++commands->elements);
 	if (!ft_strncmp(*(commands->elements), "unset", 5))
-		res = ft_unset(*((commands->elements + 1)), &env);
+		res = ft_munset((commands->elements + 1), &env);
 	if (!ft_strncmp(*(commands->elements), "export", 5))
 		res = ft_export(((commands->elements + 1)), env);
 	if (!ft_strncmp(*(commands->elements), "cd", 2))
@@ -327,3 +341,17 @@ int	exec_all(t_command *commands, t_env *env)
 // unset and export and cd bug: today
 // norm and leaks: tomorrow
 // validation: 20 feb
+
+// export x="ls         -l" without quotes= wrong , otherwise right
+// bash-3.2$ cat << DIL''
+// > $USER
+// env -i ./minishell (error if any command) && segv in unset and export (done)
+// cat << "" 
+// echo $"fdscx"
+// export without value
+// unset with mutliple args
+// print if there's pwd print , no pwd (try it in bash)
+// XD> "" ,, should print (command not found)
+// export x=10 | echo $x
+// echo $?
+// exit code signals

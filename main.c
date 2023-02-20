@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
+/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 21:34:36 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/19 15:03:51 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/20 21:01:03 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static int	read_line(char *line, char **env, t_env *lenv, t_bool *execution_is_r
 	t_bool				fail;
 	char				*p;
 
+
 	if (!line)
 	{
 		printf("\n");
@@ -86,21 +87,25 @@ static int	read_line(char *line, char **env, t_env *lenv, t_bool *execution_is_r
 	return (0);
 }
 
+void test()
+{
+	system("leaks minishell");
+}
+
 int	main(int ac, char **av, char **environment)
 {
 	t_env	*env;
 	t_bool	execution_is_running;
-
 	env = NULL;
 	fetch_env(&env, environment);
-	is_execution_running(&execution_is_running);
+	atexit(test);
+	// is_execution_running(&execution_is_running);
 	(void)ac;
 	(void)av;
 	printf("%d\n", getpid());
-	capture_signals();
+	// capture_signals();
 	while (1)
 	{
 		read_line(readline("XD> "), environment, env, &execution_is_running);
-		
 	}
 }

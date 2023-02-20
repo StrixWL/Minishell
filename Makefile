@@ -4,7 +4,6 @@ CC=				cc
 HEADERS=		includes/header.h
 SRC_DIR=		src
 SRC_FILES=		main.c \
-				src/signals.c \
 				src/tokenizer.c \
 				src/syntax_checker.c \
 				src/expander.c \

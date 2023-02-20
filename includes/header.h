@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
+/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:33:06 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/19 15:08:48 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/20 21:33:46 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@
 # include <signal.h>
 # include <fcntl.h>
 # include <limits.h>
+# include  <dirent.h>
 # include "../src/exec/libf/libft.h"
 
 /* general */
-typedef enum e_boolean {FALSE, TRUE}	t_bool;
+typedef enum e_boolean {FALSE, TRUE, ZAB}	t_bool;
 
 /* signals */
 int			capture_signals(void);
@@ -62,6 +63,7 @@ typedef struct s_token
 	struct s_token	*next;
 	struct s_token	*prev;
 }					t_token;
+
 
 void		tokenize(char **line, t_token **tokens, enum e_state *state);
 
@@ -123,6 +125,6 @@ int			ft_pwd(void);
 int			ft_echo(char **args);
 void		ft_exit(char **args);
 int			ft_cd(char **args, t_env *env);
-int			ft_unset(char *value, t_env **env);
+int			ft_munset(char **value, t_env **env);
 int			ft_export(char **args, t_env *env);
 #endif

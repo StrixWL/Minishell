@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 18:25:56 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/19 13:05:17 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/20 15:53:25 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ int	previous_one(t_env *env)
 
 int	ft_cd(char **args, t_env *env)
 {
+	if (!env)
+		return (1);
 	if (!(*args))
 		return (just_cd(env));
 	else if (*(args) && (**args) == '-')
@@ -121,6 +123,5 @@ int	ft_cd(char **args, t_env *env)
 		return (normal_cd(args, env));
 	return (0);
 }
-// exit - (done)
-// segvault in here_doc (done)
+
 // here_doc  << "$USER" (no expantion should happen in the delimiter)
