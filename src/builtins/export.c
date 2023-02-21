@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 18:06:17 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/21 18:12:28 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 22:22:33 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static int	set_vars(char *arg, t_env *env)
 	is_appand(arg, &i, &append);
 	if (*(arg + i) == '=')
 	{
-		value = malloc((ft_strlen((arg + i + 1)) + 1) * sizeof(char));
+		value = malloc((ft_strlen(arg + i)) * sizeof(char));
 		if (!value)
 			exit(1);
 		ft_strlcpy(value, (arg + i + 1), ft_strlen((arg + i)));

@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 21:34:36 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/21 19:27:06 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 22:13:16 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ static t_bool	run_and_free(t_token **tokens, t_bool *fail,
 	expand(tokens);
 	*fail = FALSE;
 	commands = parse(*tokens, fail);
-	print_cmds(commands);
+	// print_cmds(commands);
 	*execution_is_running = TRUE;
-	printf("XD\n");
+	// printf("XD\n");
 	if (!*fail)
 		exit_code = ft_itoa(exec_all(commands, lenv));
 	else

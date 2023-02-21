@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:17:04 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/21 19:28:28 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 19:48:50 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void	empty_strings_checker(t_token *tokens)
 void	expand(t_token **tokens)
 {
 	replace_vars(*tokens);
-	empty_strings_checker(*tokens);
+	// empty_strings_checker(*tokens);
 	remove_quotes(tokens, 666);
 	if (!*tokens)
 	{
