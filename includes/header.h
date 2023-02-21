@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:33:06 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/20 21:33:46 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 12:46:56 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,14 @@ t_bool		is_redirection(enum e_type type);
 /* environment */
 typedef struct s_env
 {
-    char            *property;
-    char            *value;
-    struct s_env    *next;
-}                    t_env;
+	char			*property;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
 
-void        fetch_env(t_env **env, char **environment);
-void        set_var(char *prop, char *value);
-char        *get_var(char *property);
+void		fetch_env(t_env **env, char **environment);
+void		set_var(char *prop, char *value);
+char		*get_var(char *property);
 
 /* expander */
 void		expand(t_token **tokens);
@@ -99,10 +99,10 @@ typedef struct s_command
 t_command	*parse(t_token *tokens, t_bool *fail);
 
 /* redirections */
-void	handle_redir_out(t_token *tokens, int *fd, t_bool *fail,
-					t_bool *append);
-void	handle_redir_in(t_token *tokens, int *fd, t_bool *fail);
-int		handle_heredoc(t_token *tokens, int *fd, t_bool *fail);
+void		handle_redir_out(t_token *tokens, int *fd, t_bool *fail,
+				t_bool *append);
+void		handle_redir_in(t_token *tokens, int *fd, t_bool *fail);
+int			handle_heredoc(t_token *tokens, int *fd, t_bool *fail);
 
 /* lib */
 size_t		_strlen(char *s);
@@ -118,7 +118,19 @@ char		*_itoa(size_t n);
 int			exec_all(t_command *commands, t_env *env);
 char		**get_env_array(t_env *env);
 char		*get_env_var(char *property, t_env *env);
-void		set_env_var(char *property, char *value, t_env *env , int i);
+void		set_env_var(char *property, char *value, t_env *env, int i);
+void		do_all(t_command *commands, t_env *env, int *pip, int *pip1);
+void		dups(t_command *commands, int *pip, int *pip1);
+int			wait_and_getstatus(int pid);
+char		*join_path_cmd(char *path, char *cmd);
+int			check_dir_and_access(char *cmd);
+void		print_not_found(char *cmd);
+void		get_paths(char ***paths);
+int			check_exist(char **paths, char *cmd, int red);
+int			check_executable(char **paths, char *cmd);
+int			just_cd(t_env *env);
+int			print_env(t_env *env);
+void		my_new_node(t_env *env, char *value, char *property);
 
 /*builtins*/
 int			ft_pwd(void);

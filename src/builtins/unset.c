@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 17:29:48 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/21 09:29:11 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 09:29:46 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_unset(char *value, t_env **env)
 	return (0);
 }
 
-int ft_munset(char **values, t_env **env)
+int	ft_munset(char **values, t_env **env)
 {
 	while (*values)
 	{

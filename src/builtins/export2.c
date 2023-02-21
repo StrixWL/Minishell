@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   export2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/21 15:24:59 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/21 12:52:02 by yabidi           ###   ########.fr       */
+/*   Created: 2023/02/21 12:27:18 by yabidi            #+#    #+#             */
+/*   Updated: 2023/02/21 12:27:20 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/header.h"
 
-t_list	*ft_lstnew(void *content)
+int	print_env(t_env *env)
 {
-	t_list	*lst;
-
-	lst = malloc(sizeof(t_list));
-	if (!lst)
-		return (NULL);
-	lst->content = content;
-	lst->next = NULL;
-	return (lst);
+	while (env)
+	{
+		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd(env->property, 1);
+		ft_putstr_fd("=", 1);
+		ft_putstr_fd("\"", 1);
+		ft_putstr_fd(env->value, 1);
+		ft_putstr_fd("\"", 1);
+		ft_putstr_fd("\n", 1);
+		env = env->next;
+	}
+	return (0);
 }
