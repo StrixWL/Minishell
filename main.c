@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 21:34:36 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/20 22:55:46 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 12:57:49 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,6 @@ static int	read_line(char *line, char **env, t_env *lenv, t_bool *execution_is_r
 	free_tokens(tokens);
 	free(line);
 	return (0);
-}
-
-void test()
-{
-	system("leaks minishell");
 }
 
 int	main(int ac, char **av, char **environment)

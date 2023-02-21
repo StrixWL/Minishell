@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:26:15 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/21 12:31:45 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 13:36:46 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	wait_and_getstatus(int pid)
 	int	wstatus;
 
 	waitpid(pid, &wstatus, 0);
+	if (WIFSIGNALED(wstatus))
+		return (WTERMSIG(wstatus));
 	return (WEXITSTATUS(wstatus));
 }
 
