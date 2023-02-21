@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 15:14:57 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/20 21:33:21 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 09:26:39 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*join_path_cmd(char *path, char *cmd)
 	return (result);
 }
 
-int	check_exist(char **paths, char *cmd)
+int	check_exist(char **paths, char *cmd, int red)
 {
 	DIR		*d;
 	char	*s;
@@ -87,9 +87,12 @@ int	check_exist(char **paths, char *cmd)
 		if (access(cmd, F_OK) == 0)
 			return (0);
 	}
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": command not found\n", 2);
+	if (!red)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": command not found\n", 2);
+	}
 	return (1);
 }
 
@@ -226,7 +229,11 @@ int	execute_commands(t_command *commands, t_env *env, int *pip, int *pip1)
 	int		pid;
 	char	**paths;
 	char	**nenv;
+	int		red;
 
+	red = 0;
+	if (commands->input_fd != 0 || commands->output_fd != 1)
+		red = 1;
 	pid = fork();
 	if (!pid)
 	{
@@ -236,7 +243,7 @@ int	execute_commands(t_command *commands, t_env *env, int *pip, int *pip1)
 		dups(commands, pip, pip1);
 		is_builtin(commands->elements, env);
 		get_paths(&paths);
-		if (check_exist(paths, *(commands->elements)))
+		if (check_exist(paths, *(commands->elements), red))
 			exit (127);
 		if (check_executable(paths, *(commands->elements)))
 			exit (126);
@@ -334,7 +341,6 @@ int	exec_all(t_command *commands, t_env *env)
 // heredoc expansion and new line
 // if null dont add to histry
 
-
 // n1 n3
 
 // signals and heredoc: today
@@ -355,3 +361,4 @@ int	exec_all(t_command *commands, t_env *env)
 // export x=10 | echo $x
 // echo $?
 // exit code signals
+// here_doc  << "$USER" (no expantion should happen in the delimiter)

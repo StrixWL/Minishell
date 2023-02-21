@@ -6,11 +6,22 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 17:29:48 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/20 21:43:40 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 09:29:11 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/header.h"
+
+void	delete_node(t_env *temp, t_env *temp2)
+{
+	if (temp2)
+	{
+		temp->next = temp2->next;
+		free(temp2->property);
+		free(temp2->value);
+		free(temp2);
+	}
+}
 
 int	ft_unset(char *value, t_env **env)
 {
@@ -31,12 +42,7 @@ int	ft_unset(char *value, t_env **env)
 			temp = temp->next;
 			temp2 = temp->next;
 		}
-		if (temp2)
-		{
-			temp->next = temp2->next;
-			free(temp2->property);
-			free(temp2->value);
-		}
+		delete_node(temp, temp2);
 	}
 	return (0);
 }

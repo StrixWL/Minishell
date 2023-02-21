@@ -6,16 +6,30 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 18:25:56 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/20 15:53:25 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/20 22:53:21 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/header.h"
 
+void	new_node(t_env *env, char *value, char *property)
+{
+	t_env	*new;
+
+	new = malloc(sizeof(t_env));
+	if (!new)
+		exit(1);
+	new->value = ft_strdup(value);
+	new->property = ft_strdup(property);
+	new->next = NULL;
+	while (env && env->next)
+		env = env->next;
+	env->next = new;
+}
+
 void	set_env_var(char *property, char *value, t_env *env, int i)
 {
 	t_env	*temp;
-	t_env	*new;
 	char	*temp2;
 
 	temp = env;
@@ -32,15 +46,7 @@ void	set_env_var(char *property, char *value, t_env *env, int i)
 	}
 	else
 	{
-		new = malloc(sizeof(t_env));
-		if (!new)
-			exit(1);
-		new->value = ft_strdup(value);
-		new->property = ft_strdup(property);
-		new->next = NULL;
-		while (env && env->next)
-			env = env->next;
-		env->next = new;
+		new_node(env, value, property);
 	}
 }
 
@@ -123,5 +129,3 @@ int	ft_cd(char **args, t_env *env)
 		return (normal_cd(args, env));
 	return (0);
 }
-
-// here_doc  << "$USER" (no expantion should happen in the delimiter)

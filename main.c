@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 21:34:36 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/20 21:01:03 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/20 22:55:46 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static int	read_line(char *line, char **env, t_env *lenv, t_bool *execution_is_r
 	t_bool				fail;
 	char				*p;
 
-
 	if (!line)
 	{
 		printf("\n");
@@ -98,7 +97,7 @@ int	main(int ac, char **av, char **environment)
 	t_bool	execution_is_running;
 	env = NULL;
 	fetch_env(&env, environment);
-	atexit(test);
+	// atexit(test);
 	// is_execution_running(&execution_is_running);
 	(void)ac;
 	(void)av;
