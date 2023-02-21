@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:48:32 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/21 09:21:13 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 14:19:38 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	handle_redir_in(t_token *tokens, int *fd, t_bool *fail)
 			printf("minishell: %s: No such file or directory\n",
 				tokens->next->content);
 		else if (access(tokens->next->content, W_OK))
-			printf("minishell: %s: Perimission denied\n", tokens->next->content);
+			printf("minishell: %s: Permission denied\n", tokens->next->content);
 		*fail = TRUE;
 	}
 }

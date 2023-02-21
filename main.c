@@ -3,55 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 21:34:36 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/21 12:57:49 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 14:20:34 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-// void	print_cmds(t_command *commands)
-// {
-// 	char	**elems;
-// 	int		i;
+void	print_cmds(t_command *commands)
+{
+	char	**elems;
+	int		i;
 
-// 	i = 1;
-// 	while (commands)
-// 	{
-// 		elems = commands->elements;
-// 		printf("Command%d:\n          elements: ", i++);
-// 		while (*elems)
-// 		{
-// 			printf("%s%s", *elems, *(elems + 1) ? ", " : "");
-// 			elems++;
-// 		}
-// 		if (commands->prev)
-// 		{
-// 			printf("\n          prev_elems: ");
-// 			elems = commands->prev->elements;
-// 			while (*elems)
-// 			{
-// 				printf("%s%s", *elems, *(elems + 1) ? ", " : "");
-// 				elems++;
-// 			}
-// 		}
-// 		printf("\n          input_fd: %d\n", commands->input_fd);
-// 		printf("          output_fd: %d\n", commands->output_fd);
-// 		printf("          append?: %s\n", commands->append ? "TRUE" : "FALSE");
-// 		if (commands->next)
-// 			printf("________________________________________________\n");
-// 		commands = commands->next;
-// 	}
-// }
+	i = 1;
+	while (commands)
+	{
+		elems = commands->elements;
+		printf("Command%d:\n          elements: ", i++);
+		while (*elems)
+		{
+			printf("%s%s", *elems, *(elems + 1) ? ", " : "");
+			elems++;
+		}
+		if (commands->prev)
+		{
+			printf("\n          prev_elems: ");
+			elems = commands->prev->elements;
+			while (*elems)
+			{
+				printf("%s%s", *elems, *(elems + 1) ? ", " : "");
+				elems++;
+			}
+		}
+		printf("\n          input_fd: %d\n", commands->input_fd);
+		printf("          output_fd: %d\n", commands->output_fd);
+		printf("          append?: %s\n", commands->append ? "TRUE" : "FALSE");
+		if (commands->next)
+			printf("________________________________________________\n");
+		commands = commands->next;
+	}
+}
 
-static int	read_line(char *line, char **env, t_env *lenv, t_bool *execution_is_running)
+static int	read_line(char *line, t_env *lenv, t_bool *execution_is_running)
 {
 	static enum e_state	state = NORMAL;
 	t_command			*commands;
 	t_token				*tokens;
 	t_bool				fail;
+	char				*exit_code;
 	char				*p;
 
 	if (!line)
@@ -59,10 +60,10 @@ static int	read_line(char *line, char **env, t_env *lenv, t_bool *execution_is_r
 		printf("\n");
 		exit(0);
 	}
-	(void)env;
 	tokens = NULL;
 	p = line;
-	add_history(line);
+	if (!_strcmp(line, ""))
+		add_history(line);
 	tokenize(&p, &tokens, &state);
 	if (state != NORMAL || !syntax_check(tokens))
 	{
@@ -75,10 +76,17 @@ static int	read_line(char *line, char **env, t_env *lenv, t_bool *execution_is_r
 	expand(&tokens);
 	fail = FALSE;
 	commands = parse(tokens, &fail);
-	// print_cmds(commands);
+	print_cmds(commands);
 	*execution_is_running = TRUE;
 	if (!fail)
-		exec_all(commands, lenv);
+	{
+		exit_code = ft_itoa(exec_all(commands, lenv));
+		printf("%s\n", exit_code);
+	}
+	else
+		exit_code = _strdup("1");
+	set_env_var("?", exit_code, lenv, 0);
+	free(exit_code);
 	*execution_is_running = FALSE;
 	free_commands(commands);
 	free_tokens(tokens);
@@ -90,16 +98,14 @@ int	main(int ac, char **av, char **environment)
 {
 	t_env	*env;
 	t_bool	execution_is_running;
+
 	env = NULL;
 	fetch_env(&env, environment);
-	// atexit(test);
-	// is_execution_running(&execution_is_running);
-	(void)ac;
-	(void)av;
+	set_env_var("?", "0", env, 0);
+	is_execution_running(&execution_is_running);
+	ac = (int)av;
 	printf("%d\n", getpid());
-	// capture_signals();
+	capture_signals();
 	while (1)
-	{
-		read_line(readline("XD> "), environment, env, &execution_is_running);
-	}
+		read_line(readline("XD> "), env, &execution_is_running);
 }

@@ -6,7 +6,7 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 17:00:37 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/19 15:09:50 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/21 14:19:26 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,13 @@ static void	variable_handler(char **line, t_token **tokens,
 	*line += 1;
 	p1 = *line;
 	while (*p1 && (((*p1 >= 'a' && *p1 <= 'z') || (*p1 >= 'A' && *p1 <= 'Z'))
-			|| (*p1 >= '0' && *p1 <= '9') || *p1 == '_'))
+			|| (*p1 >= '0' && *p1 <= '9') || *p1 == '_' || *p1 == '?'))
 		p1++;
 	p2 = _malloc(p1 - *line + sizeof(char));
 	new_token->content = p2;
 	p1 = *line;
 	while (*p1 && (((*p1 >= 'a' && *p1 <= 'z') || (*p1 >= 'A' && *p1 <= 'Z'))
-			|| (*p1 >= '0' && *p1 <= '9') || *p1 == '_'))
+			|| (*p1 >= '0' && *p1 <= '9') || *p1 == '_' || *p1 == '?'))
 		*p2++ = *p1++;
 	*p2 = 0;
 	new_token->state = *state;

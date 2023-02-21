@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strings.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 18:05:17 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/14 18:09:55 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 14:33:57 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*_strdup(char *s)
 	char	*arr;
 	char	*p;
 
-	arr = _malloc((_strlen(s) + 1)  * sizeof(char));
+	arr = _malloc((_strlen(s) + 1) * sizeof(char));
 	p = arr;
 	while (*s)
 		*arr++ = *s++;
@@ -62,30 +62,5 @@ char	*_strjoin(char *s1, char *s2)
 		*p++ = *s2++;
 	free(s1 - len1 * sizeof(char));
 	free(s2 - (len2 + 1) * sizeof(char));
-	return (arr);
-}
-
-char	*_itoa(size_t n)
-{
-	char	*arr;
-	int		size;
-	int		k;
-
-	k = n;
-	if (!k)
-		size = 1;
-	while (k)
-	{
-		k /= 10;
-		size++;
-	}
-	arr = _malloc((sizeof(char) + 1) * size);
-    arr[size--] = 0;
-    arr[size] = 48;
-	while (n)
-	{
-		arr[size--] = n % 10 + 48;
-		n /= 10;
-	}
 	return (arr);
 }

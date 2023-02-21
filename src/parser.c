@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 20:36:24 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/20 19:07:47 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 14:26:19 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ t_token	*handle_redirections(t_token *tokens, int *fd, t_bool *fail,
 		handle_heredoc(tokens, fd, fail);
 	return (tokens->next);
 }
-
-
 
 t_command	*parse(t_token *tokens, t_bool *fail)
 {

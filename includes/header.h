@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:33:06 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/21 12:46:56 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 14:34:12 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_env
 	char			*value;
 	struct s_env	*next;
 }	t_env;
+t_env    	**get_env(void);
 
 void		fetch_env(t_env **env, char **environment);
 void		set_var(char *prop, char *value);
@@ -112,7 +113,6 @@ int			_strcmp(char *s1, char *s2);
 char		*_strjoin(char *s1, char *s2);
 void		free_tokens(t_token *tokens);
 void		free_commands(t_command *commands);
-char		*_itoa(size_t n);
 
 /* execution */
 int			exec_all(t_command *commands, t_env *env);

@@ -6,7 +6,7 @@
 /*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 10:55:50 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/19 15:04:24 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/21 14:19:34 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	handler(int sig)
 	{
 		if (sig == SIGINT)
 		{
+			set_env_var("?", "1", *get_env(), 0);
 			rl_on_new_line();
 			rl_replace_line("", 0);
 			printf("\n");

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+         #
+#    By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/21 09:14:44 by yabidi            #+#    #+#              #
-#    Updated: 2023/02/21 12:29:39 by yabidi           ###   ########.fr        #
+#    Updated: 2023/02/21 14:20:47 by bel-amri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRC_DIR=		src
 SRC_FILES=		main.c \
 				src/tokenizer.c \
 				src/syntax_checker.c \
+				src/signals.c \
 				src/expander.c \
 				src/redirections.c \
 				src/parser.c \
