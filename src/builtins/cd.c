@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 18:25:56 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/21 12:43:17 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 18:11:25 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*get_env_var(char *property, t_env *env)
 		return (env->value);
 }
 
-int	normal_cd(char **args, t_env *env)
+static int	normal_cd(char **args, t_env *env)
 {
 	char	cwd[1024];
 
@@ -66,7 +66,7 @@ int	normal_cd(char **args, t_env *env)
 	}
 }
 
-int	previous_one(t_env *env)
+static int	previous_one(t_env *env)
 {
 	char	cwd[1024];
 

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
+/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 17:00:37 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/21 14:19:26 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/21 18:52:47 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void	new_node(t_token **tokens, t_token *new_token)
+void	new_node(t_token **tokens, t_token *new_token)
 {
 	t_token	*p;
 
@@ -35,7 +35,7 @@ static void	new_node(t_token **tokens, t_token *new_token)
 	p->next = new_token;
 }
 
-static void	special_character_handler(char **line, t_token **tokens,
+void	special_character_handler(char **line, t_token **tokens,
 									enum e_state *state, enum e_type type)
 {
 	t_token	*new_token;
@@ -65,7 +65,7 @@ static void	special_character_handler(char **line, t_token **tokens,
 	*line += 1;
 }
 
-static void	variable_handler(char **line, t_token **tokens,
+void	variable_handler(char **line, t_token **tokens,
 									enum e_state *state)
 {
 	t_token		*new_token;
@@ -91,7 +91,7 @@ static void	variable_handler(char **line, t_token **tokens,
 	*line += _strlen(new_token->content);
 }
 
-static void	normal_character_handler(char **line, t_token **tokens,
+void	normal_character_handler(char **line, t_token **tokens,
 									enum e_state *state)
 {
 	t_token		*new_token;
@@ -103,14 +103,14 @@ static void	normal_character_handler(char **line, t_token **tokens,
 	p1 = *line;
 	while (*p1 && !(*p1 == ' ' || *p1 == '\n' || *p1 == '\'' || *p1 == '"'
 			|| *p1 == '\\' || *p1 == '|' || *p1 == '<'
-			|| *p1 == '>' || *p1 == '$'))
+			|| *p1 == '>' || *p1 == '$' || *p1 == '\t'))
 		p1++;
 	p2 = _malloc(p1 - *line + sizeof(char));
 	new_token->content = p2;
 	p1 = *line;
 	while (*p1 && !(*p1 == ' ' || *p1 == '\n' || *p1 == '\'' || *p1 == '"'
 			|| *p1 == '\\' || *p1 == '|' || *p1 == '<'
-			|| *p1 == '>' || *p1 == '$'))
+			|| *p1 == '>' || *p1 == '$' || *p1 == '\t'))
 		*p2++ = *p1++;
 	*p2 = 0;
 	new_token->state = *state;
@@ -118,7 +118,7 @@ static void	normal_character_handler(char **line, t_token **tokens,
 	*line += _strlen(new_token->content);
 }
 
-static int	input_output_characters_handler(char **line, t_token **tokens,
+int	input_output_characters_handler(char **line, t_token **tokens,
 									enum e_state *state)
 {
 	t_token		*new_token;
@@ -142,29 +142,4 @@ static int	input_output_characters_handler(char **line, t_token **tokens,
 	new_node(tokens, new_token);
 	*line += _strlen(new_token->content);
 	return (666);
-}
-
-void	tokenize(char **line, t_token **tokens, enum e_state *state)
-{
-	if (!**line)
-		return ;
-	if (**line == ' ')
-		special_character_handler(line, tokens, state, WSPACE);
-	else if (**line == '\n')
-		special_character_handler(line, tokens, state, NEW_LINE);
-	else if (**line == '\'')
-		special_character_handler(line, tokens, state, QUOTE);
-	else if (**line == '"')
-		special_character_handler(line, tokens, state, DQUOTE);
-	else if (**line == '\\')
-		special_character_handler(line, tokens, state, ESCAPE);
-	else if (**line == '|')
-		special_character_handler(line, tokens, state, PIPE);
-	else if (**line == '$')
-		variable_handler(line, tokens, state);
-	else if (**line == '>' || **line == '<')
-		input_output_characters_handler(line, tokens, state);
-	else
-		normal_character_handler(line, tokens, state);
-	tokenize(line, tokens, state);
 }

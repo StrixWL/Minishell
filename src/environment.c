@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
+/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:04:53 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/21 14:27:28 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/21 16:25:31 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*get_var(char *property)
 	return (NULL);
 }
 
-void	set_var(char *prop, char *value)
+static void	set_var(char *prop, char *value)
 {
 	t_env	**env;
 	t_env	*new;

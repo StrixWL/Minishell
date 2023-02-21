@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
+/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:33:06 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/21 14:34:12 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/21 18:53:30 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,16 @@ typedef struct s_token
 	struct s_token	*next;
 	struct s_token	*prev;
 }					t_token;
-
-
 void		tokenize(char **line, t_token **tokens, enum e_state *state);
-
+void		special_character_handler(char **line, t_token **tokens,
+				enum e_state *state, enum e_type type);
+void		variable_handler(char **line, t_token **tokens,
+				enum e_state *state);
+void		normal_character_handler(char **line, t_token **tokens,
+				enum e_state *state);
+int			input_output_characters_handler(char **line, t_token **tokens,
+				enum e_state *state);
+void		new_node(t_token **tokens, t_token *new_token);
 /* syntax checker */
 t_bool		syntax_check(t_token *tokens);
 t_bool		is_redirection(enum e_type type);
@@ -78,10 +84,9 @@ typedef struct s_env
 	char			*value;
 	struct s_env	*next;
 }	t_env;
-t_env    	**get_env(void);
+t_env		**get_env(void);
 
 void		fetch_env(t_env **env, char **environment);
-void		set_var(char *prop, char *value);
 char		*get_var(char *property);
 
 /* expander */
@@ -131,6 +136,7 @@ int			check_executable(char **paths, char *cmd);
 int			just_cd(t_env *env);
 int			print_env(t_env *env);
 void		my_new_node(t_env *env, char *value, char *property);
+void		print_if_no_red(char *cmd, int red);
 
 /*builtins*/
 int			ft_pwd(void);

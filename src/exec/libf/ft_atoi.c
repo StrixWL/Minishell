@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 20:16:52 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/21 12:52:36 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 15:54:07 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static size_t	my_func_strlen(const char *s)
 	}
 	return (res);
 }
-
 
 unsigned long long	ft_atoi(const char *str)
 {

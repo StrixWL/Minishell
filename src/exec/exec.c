@@ -6,13 +6,14 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 15:14:57 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/21 12:53:01 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 18:17:14 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int	execute_commands(t_command *commands, t_env *env, int *pip, int *pip1)
+static int	execute_commands(t_command *commands,
+				t_env *env, int *pip, int *pip1)
 {
 	int		pid;
 
@@ -26,7 +27,7 @@ int	execute_commands(t_command *commands, t_env *env, int *pip, int *pip1)
 	return (0);
 }
 
-int	check_main_process_builtin(char *commands)
+static int	check_main_process_builtin(char *commands)
 {
 	if (!ft_strncmp(commands, "exit", 4))
 		return (1);
@@ -39,7 +40,8 @@ int	check_main_process_builtin(char *commands)
 	return (0);
 }
 
-int	main_process_builtin(t_command *commands, t_env *env, int *pip, int *pip1)
+static int	main_process_builtin(t_command *commands,
+				t_env *env, int *pip, int *pip1)
 {
 	int	save_in;
 	int	save_out;
@@ -62,7 +64,7 @@ int	main_process_builtin(t_command *commands, t_env *env, int *pip, int *pip1)
 	return (0);
 }
 
-int	exec_it(t_command *commands, t_env *env, int *pip, int *pip1)
+static int	exec_it(t_command *commands, t_env *env, int *pip, int *pip1)
 {
 	int	ret;
 
@@ -101,42 +103,3 @@ int	exec_all(t_command *commands, t_env *env)
 		;
 	return (ret);
 }
-
-// 258 if there's a syntax problem with pipes
-// check exit file if open failed
-// ctl-d when a program is already running
-// the exit code of ctl-c is 130
-// the exit code of ctl-\ is 131
-// close the pipe
-// delete fsanitize
-// OLDPWD
-// if cd fails it should return 1
-//  env var (fix)
-// handle redirection to a variable that doesn't exist && a variable that exist
-// handle overflow in exit
-
-// echo $?
-// heredoc expansion and new line
-// if null dont add to histry
-
-// n1 n3
-
-// signals and heredoc: today
-// unset and export and cd bug: today
-// norm and leaks: tomorrow
-// validation: 20 feb
-
-// export x="ls         -l" without quotes= wrong , otherwise right
-// bash-3.2$ cat << DIL''
-// > $USER
-// env -i ./minishell (error if any command) && segv in unset and export (done)
-// cat << "" 
-// echo $"fdscx"
-// export without value
-// unset with mutliple args
-// print if there's pwd print , no pwd (try it in bash)
-// XD> "" ,, should print (command not found)
-// export x=10 | echo $x
-// echo $?
-// exit code signals
-// here_doc  << "$USER" (no expantion should happen in the delimiter)

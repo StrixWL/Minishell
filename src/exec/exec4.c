@@ -6,13 +6,13 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:26:15 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/21 13:36:46 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 18:15:43 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	get_path_and_execute(char **paths, t_command *commands, char **nenv)
+static void	get_path_and_execute(char **paths, t_command *commands, char **nenv)
 {
 	char	*s;
 
@@ -33,7 +33,7 @@ void	get_path_and_execute(char **paths, t_command *commands, char **nenv)
 		exit(1);
 }
 
-int	is_builtin(char **cmd, t_env *env)
+static int	is_builtin(char **cmd, t_env *env)
 {
 	(void)env;
 	if (!ft_strncmp(*cmd, "echo", 4))
@@ -49,7 +49,7 @@ int	wait_and_getstatus(int pid)
 
 	waitpid(pid, &wstatus, 0);
 	if (WIFSIGNALED(wstatus))
-		return (WTERMSIG(wstatus));
+		return (WTERMSIG(wstatus) + 128);
 	return (WEXITSTATUS(wstatus));
 }
 

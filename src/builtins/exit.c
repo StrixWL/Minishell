@@ -6,13 +6,13 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 00:47:43 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/19 13:07:15 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 18:11:52 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/header.h"
 
-int	is_num(char *arg)
+static int	is_num(char *arg)
 {
 	size_t	i;
 

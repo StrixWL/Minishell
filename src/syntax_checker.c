@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
+/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 20:06:06 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/21 14:19:30 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/21 16:19:40 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_bool	is_redirection(enum e_type type)
 		|| type == HEREDOC || type == APPEND);
 }
 
-t_bool	check_for_pipe(t_token *token)
+static t_bool	check_for_pipe(t_token *token)
 {
 	t_token	*p;
 
@@ -36,7 +36,7 @@ t_bool	check_for_pipe(t_token *token)
 	return (TRUE);
 }
 
-t_bool	check_for_redir(t_token *token)
+static t_bool	check_for_redir(t_token *token)
 {
 	t_token	*p;
 
@@ -49,7 +49,6 @@ t_bool	check_for_redir(t_token *token)
 	return (TRUE);
 }
 
-/* bullshit code bruh */
 t_bool	syntax_check(t_token *tokens)
 {
 	while (tokens)

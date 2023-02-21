@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   exec5.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/17 13:24:36 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/21 16:03:42 by yabidi           ###   ########.fr       */
+/*   Created: 2023/02/21 15:49:46 by yabidi            #+#    #+#             */
+/*   Updated: 2023/02/21 15:50:12 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isalnum(int t)
+#include "header.h"
+
+void	print_if_no_red(char *cmd, int red)
 {
-	if ((t >= '0' && t <= '9'))
-		return (1);
-	if ((t >= 'a' && t <= 'z') || (t >= 'A' && t <= 'Z'))
-		return (1);
-	return (0);
+	if (!red || (cmd && *cmd))
+		print_not_found(cmd);
 }

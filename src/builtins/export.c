@@ -6,13 +6,13 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 18:06:17 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/21 12:27:10 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 18:12:28 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/header.h"
 
-int	check_property(char *arg)
+static int	check_property(char *arg)
 {
 	int	i;
 
@@ -35,7 +35,7 @@ int	check_property(char *arg)
 	return (i);
 }
 
-void	alloc_and_copy(int append, char **property, char *arg, int i)
+static void	alloc_and_copy(int append, char **property, char *arg, int i)
 {
 	if (append == 1)
 	{
@@ -57,7 +57,7 @@ void	alloc_and_copy(int append, char **property, char *arg, int i)
 	}
 }
 
-void	is_appand(char *arg, int *i, int *append)
+static void	is_appand(char *arg, int *i, int *append)
 {
 	if (*(arg + *i) == '+')
 	{
@@ -66,7 +66,7 @@ void	is_appand(char *arg, int *i, int *append)
 	}
 }
 
-int	set_vars(char *arg, t_env *env)
+static int	set_vars(char *arg, t_env *env)
 {
 	char	*value;
 	char	*property;

@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+         #
+#    By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/21 09:14:44 by yabidi            #+#    #+#              #
-#    Updated: 2023/02/21 14:20:47 by bel-amri         ###   ########.fr        #
+#    Updated: 2023/02/21 17:36:30 by yabidi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=			minishell
-FLAGS=			-Wall -Werror -Wextra -g -fsanitize=address,undefined
+FLAGS=			-Wall -Werror -Wextra
 CC=				cc
 HEADERS=		includes/header.h
 SRC_DIR=		src
@@ -29,6 +29,7 @@ SRC_FILES=		main.c \
 				src/exec/exec2.c \
 				src/exec/exec3.c \
 				src/exec/exec4.c \
+				src/exec/exec5.c \
 				src/builtins/echo.c \
 				src/builtins/pwd.c \
 				src/builtins/exit.c \
@@ -46,7 +47,7 @@ SRC_FILES=		main.c \
 	   src/exec/libf/ft_memcmp.c src/exec/libf/ft_memchr.c src/exec/libf/ft_bzero.c src/exec/libf/ft_calloc.c src/exec/libf/ft_striteri.c
 				
 OBJ_FILES=		$(SRC_FILES:.c=.o)
-READLINE=		/Users/bel-amri/.brew/opt/readline/
+READLINE=		/Users/yabidi/.brew/opt/readline/
 
 
 all: $(NAME)

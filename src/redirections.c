@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
+/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:48:32 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/21 14:19:38 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/21 16:23:32 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	handle_redir_in(t_token *tokens, int *fd, t_bool *fail)
 	}
 }
 
-char	*heredoc_expander(char *input)
+static char	*heredoc_expander(char *input)
 {
 	enum e_state	state;
 	t_token			*tokens;

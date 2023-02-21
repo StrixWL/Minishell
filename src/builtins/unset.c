@@ -6,13 +6,13 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 17:29:48 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/21 09:29:46 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 18:12:41 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/header.h"
 
-void	delete_node(t_env *temp, t_env *temp2)
+static void	delete_node(t_env *temp, t_env *temp2)
 {
 	if (temp2)
 	{

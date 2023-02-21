@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
+/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:17:04 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/21 14:35:34 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/21 19:28:28 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	replace_vars(t_token *tokens)
 	}
 }
 
-void	remove_first_quotes(t_token **tokens, enum e_type type)
+static void	remove_first_quotes(t_token **tokens, enum e_type type)
 {
 	t_token	*t;
 
@@ -59,7 +59,7 @@ void	remove_first_quotes(t_token **tokens, enum e_type type)
 	}
 }
 
-void	remove_quotes(t_token **tokens, enum e_type type)
+static void	remove_quotes(t_token **tokens, enum e_type type)
 {
 	t_token	*p;
 	t_token	*t;
@@ -84,7 +84,7 @@ void	remove_quotes(t_token **tokens, enum e_type type)
 	}
 }
 
-void	gather_strings(t_token *tokens)
+static void	gather_strings(t_token *tokens)
 {
 	void		*p;
 
@@ -112,9 +112,40 @@ void	gather_strings(t_token *tokens)
 	}
 }
 
+void	empty_strings_checker(t_token *tokens)
+{
+	t_token	*new_node;
+	t_token	*p;
+
+	p = tokens;
+	while (tokens)
+	{
+		if ((tokens->type == QUOTE && tokens->next && tokens->next->type == QUOTE))
+		{
+			new_node = _malloc(sizeof(t_token));
+			new_node->content = _strdup("");
+			new_node->state = QUOTED;
+			new_node->type = WORD;
+			new_node->prev = tokens;
+			new_node->next = tokens->next;
+			tokens->next = new_node;
+			tokens->next->prev = new_node;
+			tokens = tokens->next->next;
+		}
+		else
+			tokens = tokens->next;
+	}
+	while (p)
+	{
+		printf("-> %s\n", p->content);
+		p = p->next;
+	}
+}
+
 void	expand(t_token **tokens)
 {
 	replace_vars(*tokens);
+	empty_strings_checker(*tokens);
 	remove_quotes(tokens, 666);
 	if (!*tokens)
 	{

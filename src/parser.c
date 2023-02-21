@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
+/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 20:36:24 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/21 14:26:19 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/21 16:23:57 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	reset(char ***elements, int *fd, t_bool *append)
 	*append = FALSE;
 }
 
-t_token	*handle_redirections(t_token *tokens, int *fd, t_bool *fail,
+static t_token	*handle_redirections(t_token *tokens, int *fd, t_bool *fail,
 				t_bool *append)
 {
 	if (!tokens->next)

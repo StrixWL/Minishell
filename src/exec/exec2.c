@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:17:43 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/21 12:25:56 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 18:14:31 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	check_exist(char **paths, char *cmd, int red)
 
 	while (cmd && *cmd == '.')
 		cmd++;
+	if (cmd && !*cmd && !red)
+		print_not_found(cmd);
 	if (cmd && !ft_strchr(cmd, '/') && paths)
 	{
 		while (*paths)
@@ -36,9 +38,7 @@ int	check_exist(char **paths, char *cmd, int red)
 		if (i != 3)
 			return (i);
 	}
-	if (!red)
-		print_not_found(cmd);
-	return (1);
+	return (print_if_no_red(cmd, red), 1);
 }
 
 int	check_executable(char **paths, char *cmd)
@@ -70,10 +70,7 @@ int	check_executable(char **paths, char *cmd)
 	return (1);
 }
 
-// if i've got a directory in the input
-// if i've got a file that i don't have the right to execute
-
-void	memcpy_array(char **result, int i, t_env *env)
+static void	memcpy_array(char **result, int i, t_env *env)
 {
 	*(result + i) = malloc((ft_strlen(env->property)
 				+ ft_strlen(env->value) + 2) * sizeof(char));
@@ -85,7 +82,7 @@ void	memcpy_array(char **result, int i, t_env *env)
 		env->value, ft_strlen(env->value) + 1);
 }
 
-int	n_elements(t_env *temp)
+static int	n_elements(t_env *temp)
 {
 	int	res;
 

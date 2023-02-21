@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
+/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 21:34:36 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/21 14:20:34 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/21 19:27:06 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,67 @@ void	print_cmds(t_command *commands)
 	}
 }
 
+void	tokenize(char **line, t_token **tokens, enum e_state *state)
+{
+	if (!**line)
+		return ;
+	if (**line == ' ' || **line == '\t')
+		special_character_handler(line, tokens, state, WSPACE);
+	else if (**line == '\n')
+		special_character_handler(line, tokens, state, NEW_LINE);
+	else if (**line == '\'')
+		special_character_handler(line, tokens, state, QUOTE);
+	else if (**line == '"')
+		special_character_handler(line, tokens, state, DQUOTE);
+	else if (**line == '\\')
+		special_character_handler(line, tokens, state, ESCAPE);
+	else if (**line == '|')
+		special_character_handler(line, tokens, state, PIPE);
+	else if (**line == '$')
+		variable_handler(line, tokens, state);
+	else if (**line == '>' || **line == '<')
+		input_output_characters_handler(line, tokens, state);
+	else
+		normal_character_handler(line, tokens, state);
+	tokenize(line, tokens, state);
+}
+
+static t_bool	run_and_free(t_token **tokens, t_bool *fail,
+				t_bool *execution_is_running, t_env *lenv)
+{
+	t_command			*commands;
+	char				*exit_code;
+	t_token				*tokens_;
+
+	tokens_ = *tokens;
+	while (tokens_ && tokens_->type == WSPACE)
+		tokens_ = tokens_->next;
+	if (!tokens_)
+		return (free_tokens(*tokens), FALSE);
+	expand(tokens);
+	*fail = FALSE;
+	commands = parse(*tokens, fail);
+	print_cmds(commands);
+	*execution_is_running = TRUE;
+	printf("XD\n");
+	if (!*fail)
+		exit_code = ft_itoa(exec_all(commands, lenv));
+	else
+		exit_code = _strdup("1");
+	set_env_var("?", exit_code, lenv, 0);
+	free(exit_code);
+	*execution_is_running = FALSE;
+	free_commands(commands);
+	free_tokens(*tokens);
+	return (TRUE);
+}
+
 static int	read_line(char *line, t_env *lenv, t_bool *execution_is_running)
 {
-	static enum e_state	state = NORMAL;
-	t_command			*commands;
-	t_token				*tokens;
-	t_bool				fail;
-	char				*exit_code;
-	char				*p;
+	enum e_state	state;
+	t_token			*tokens;
+	t_bool			fail;
+	char			*p;
 
 	if (!line)
 	{
@@ -64,34 +117,16 @@ static int	read_line(char *line, t_env *lenv, t_bool *execution_is_running)
 	p = line;
 	if (!_strcmp(line, ""))
 		add_history(line);
+	state = NORMAL;
 	tokenize(&p, &tokens, &state);
 	if (state != NORMAL || !syntax_check(tokens))
 	{
-		state = NORMAL;
 		printf("syntax error.\n");
 		free_tokens(tokens);
-		free(line);
-		return (1);
+		return (free(line), set_env_var("?", "258", lenv, 0), 666);
 	}
-	expand(&tokens);
-	fail = FALSE;
-	commands = parse(tokens, &fail);
-	print_cmds(commands);
-	*execution_is_running = TRUE;
-	if (!fail)
-	{
-		exit_code = ft_itoa(exec_all(commands, lenv));
-		printf("%s\n", exit_code);
-	}
-	else
-		exit_code = _strdup("1");
-	set_env_var("?", exit_code, lenv, 0);
-	free(exit_code);
-	*execution_is_running = FALSE;
-	free_commands(commands);
-	free_tokens(tokens);
-	free(line);
-	return (0);
+	run_and_free(&tokens, &fail, execution_is_running, lenv);
+	return (free(line), 0);
 }
 
 int	main(int ac, char **av, char **environment)
@@ -109,3 +144,4 @@ int	main(int ac, char **av, char **environment)
 	while (1)
 		read_line(readline("XD> "), env, &execution_is_running);
 }
+

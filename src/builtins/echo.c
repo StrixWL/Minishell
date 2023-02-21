@@ -6,13 +6,13 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 11:46:16 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/19 13:02:52 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 18:25:34 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/header.h"
 
-int	is_option(char *arg)
+static int	is_option(char *arg)
 {
 	int	ret;
 

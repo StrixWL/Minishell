@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:24:46 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/21 12:25:10 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/21 17:48:23 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	check_dir_and_access(char *cmd)
 {
 	DIR	*d;
 
-	while (*cmd == '/')
+	while ((*(cmd) == '/') && (*(cmd + 1) == '/'))
 			cmd++;
 	d = opendir(cmd);
 	if (d != NULL)
@@ -59,5 +59,5 @@ void	print_not_found(char *cmd)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": command not found\n", 2);
+	ft_putstr_fd(": command not founud\n", 2);
 }
