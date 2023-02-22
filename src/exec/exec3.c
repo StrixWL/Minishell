@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:24:46 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/21 17:48:23 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/22 02:51:00 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,12 @@ char	*join_path_cmd(char *path, char *cmd)
 
 int	check_dir_and_access(char *cmd)
 {
-	DIR	*d;
-
 	while ((*(cmd) == '/') && (*(cmd + 1) == '/'))
 			cmd++;
-	d = opendir(cmd);
-	if (d != NULL)
-		return (closedir(d),
-			printf("minishell: %s: is a directory\n", cmd), 1);
+	if (access(cmd, F_OK) == 0)
+		return (0);
+	if (*(cmd) == '/')
+		cmd++;
 	if (access(cmd, F_OK) == 0)
 		return (0);
 	return (3);
@@ -59,5 +57,8 @@ void	print_not_found(char *cmd)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": command not founud\n", 2);
+	if (ft_strchr(cmd, '/'))
+		ft_putstr_fd(": No such file or directory\n", 2);
+	else
+		ft_putstr_fd(": command not found\n", 2);
 }

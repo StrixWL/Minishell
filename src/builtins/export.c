@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 18:06:17 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/21 22:22:33 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/22 04:19:03 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ static int	set_vars(char *arg, t_env *env)
 		free(value);
 		free(property);
 	}
+	else
+		without_value(arg, env);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:44:43 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/21 22:08:30 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/22 04:04:07 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
-
+	if (!s)
+		return (i);
 	while (*s)
 	{
 		s++;

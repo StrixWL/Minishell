@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:17:43 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/21 18:14:31 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/22 04:20:29 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	check_executable(char **paths, char *cmd)
 {
 	char	*s;
 
+	if (is_dir(cmd))
+		return (1);
 	if (!cmd)
 		return (1);
 	if (!ft_strchr(cmd, '/'))
@@ -53,10 +55,7 @@ int	check_executable(char **paths, char *cmd)
 		{
 			s = join_path_cmd(*paths, cmd);
 			if (access(s, X_OK) == 0)
-			{
-				free(s);
-				return (0);
-			}
+				return (free(s), 0);
 			free(s);
 			paths++;
 		}
@@ -70,16 +69,21 @@ int	check_executable(char **paths, char *cmd)
 	return (1);
 }
 
-static void	memcpy_array(char **result, int i, t_env *env)
+static int	memcpy_array(char **result, int i, t_env *env)
 {
-	*(result + i) = malloc((ft_strlen(env->property)
-				+ ft_strlen(env->value) + 2) * sizeof(char));
-	if (!*(result + i))
-		exit (1);
-	ft_memcpy((*(result + i)), env->property, ft_strlen(env->property));
-	ft_memcpy((*(result + i)) + ft_strlen(env->property), "=", 1);
-	ft_strlcpy((*(result + i)) + ft_strlen(env->property) + 1,
-		env->value, ft_strlen(env->value) + 1);
+	if (env->value)
+	{
+		*(result + i) = malloc((ft_strlen(env->property)
+					+ ft_strlen(env->value) + 2) * sizeof(char));
+		if (!*(result + i))
+			exit (1);
+		ft_memcpy((*(result + i)), env->property, ft_strlen(env->property));
+		ft_memcpy((*(result + i)) + ft_strlen(env->property), "=", 1);
+		ft_strlcpy((*(result + i)) + ft_strlen(env->property) + 1,
+			env->value, ft_strlen(env->value) + 1);
+		return (1);
+	}
+	return (0);
 }
 
 static int	n_elements(t_env *temp)
@@ -89,7 +93,8 @@ static int	n_elements(t_env *temp)
 	res = 0;
 	while (temp)
 	{
-		res++;
+		if (temp->value)
+			res++;
 		temp = temp->next;
 	}
 	return (res);
@@ -114,8 +119,7 @@ char	**get_env_array(t_env *env)
 		result[n_var] = NULL;
 		while (i < n_var)
 		{
-			memcpy_array(result, i, env);
-			i++;
+			i += memcpy_array(result, i, env);
 			env = env->next;
 		}
 	}

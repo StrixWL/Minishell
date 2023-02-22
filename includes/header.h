@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:33:06 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/21 18:53:30 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/22 04:21:21 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,8 @@ int			just_cd(t_env *env);
 int			print_env(t_env *env);
 void		my_new_node(t_env *env, char *value, char *property);
 void		print_if_no_red(char *cmd, int red);
+void		without_value(char *arg, t_env *env);
+int			is_dir(char *cmd);
 
 /*builtins*/
 int			ft_pwd(void);

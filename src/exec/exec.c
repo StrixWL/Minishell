@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 15:14:57 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/21 18:17:14 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/22 02:14:31 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ static int	main_process_builtin(t_command *commands,
 	dups(commands, pip, pip1);
 	if (!ft_strncmp(*(commands->elements), "exit", 4))
 		ft_exit(++commands->elements);
-	if (!ft_strncmp(*(commands->elements), "unset", 5))
+	else if (!ft_strncmp(*(commands->elements), "unset", 5))
 		res = ft_munset((commands->elements + 1), &env);
-	if (!ft_strncmp(*(commands->elements), "export", 5))
+	else if (!ft_strncmp(*(commands->elements), "export", 5))
 		res = ft_export(((commands->elements + 1)), env);
-	if (!ft_strncmp(*(commands->elements), "cd", 2))
+	else if (!ft_strncmp(*(commands->elements), "cd", 2))
 		res = ft_cd((commands->elements + 1), env);
 	dup2(save_in, 0);
 	dup2(save_out, 1);
