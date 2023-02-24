@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:33:06 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/22 04:21:21 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/24 01:06:43 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_token
 	char			*content;
 	enum e_state	state;
 	enum e_type		type;
+	t_bool			expand_heredoc;
 	struct s_token	*next;
 	struct s_token	*prev;
 }					t_token;
@@ -92,6 +93,12 @@ char		*get_var(char *property);
 /* expander */
 void		expand(t_token **tokens);
 void		replace_vars(t_token *tokens);
+void		replace_var(t_token *tokens);
+void		gather_strings(t_token *tokens);
+void		remove_quotes(t_token **tokens, enum e_type type);
+void		remove_first_quotes(t_token **tokens, enum e_type type);
+void		empty_strings_checker(t_token *tokens, enum e_type type);
+
 /* parser */
 typedef struct s_command
 {

@@ -3,47 +3,64 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 21:34:36 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/21 22:13:16 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/23 23:31:16 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	print_cmds(t_command *commands)
-{
-	char	**elems;
-	int		i;
+// void	print_cmds(t_command *commands)
+// {
+// 	char	**elems;
+// 	int		i;
 
-	i = 1;
-	while (commands)
+// 	i = 1;
+// 	while (commands)
+// 	{
+// 		elems = commands->elements;
+// 		printf("Command%d:\n          elements: ", i++);
+// 		while (*elems)
+// 		{
+// 			printf("%s%s", *elems, *(elems + 1) ? ", " : "");
+// 			elems++;
+// 		}
+// 		if (commands->prev)
+// 		{
+// 			printf("\n          prev_elems: ");
+// 			elems = commands->prev->elements;
+// 			while (*elems)
+// 			{
+// 				printf("%s%s", *elems, *(elems + 1) ? ", " : "");
+// 				elems++;
+// 			}
+// 		}
+// 		printf("\n          input_fd: %d\n", commands->input_fd);
+// 		printf("          output_fd: %d\n", commands->output_fd);
+// 		printf("          append?: %s\n", commands->append ? "TRUE" : "FALSE");
+// 		if (commands->next)
+// 			printf("________________________________________________\n");
+// 		commands = commands->next;
+// 	}
+// }
+
+void	expand(t_token **tokens)
+{
+	replace_vars(*tokens);
+	empty_strings_checker(*tokens, QUOTE);
+	empty_strings_checker(*tokens, DQUOTE);
+	remove_quotes(tokens, 666);
+	if (!*tokens)
 	{
-		elems = commands->elements;
-		printf("Command%d:\n          elements: ", i++);
-		while (*elems)
-		{
-			printf("%s%s", *elems, *(elems + 1) ? ", " : "");
-			elems++;
-		}
-		if (commands->prev)
-		{
-			printf("\n          prev_elems: ");
-			elems = commands->prev->elements;
-			while (*elems)
-			{
-				printf("%s%s", *elems, *(elems + 1) ? ", " : "");
-				elems++;
-			}
-		}
-		printf("\n          input_fd: %d\n", commands->input_fd);
-		printf("          output_fd: %d\n", commands->output_fd);
-		printf("          append?: %s\n", commands->append ? "TRUE" : "FALSE");
-		if (commands->next)
-			printf("________________________________________________\n");
-		commands = commands->next;
+		*tokens = _malloc(sizeof(t_token));
+		(*tokens)->content = _strdup("");
+		(*tokens)->next = NULL;
+		(*tokens)->prev = NULL;
 	}
+	gather_strings(*tokens);
+	remove_quotes(tokens, WSPACE);
 }
 
 void	tokenize(char **line, t_token **tokens, enum e_state *state)
@@ -86,9 +103,7 @@ static t_bool	run_and_free(t_token **tokens, t_bool *fail,
 	expand(tokens);
 	*fail = FALSE;
 	commands = parse(*tokens, fail);
-	// print_cmds(commands);
 	*execution_is_running = TRUE;
-	// printf("XD\n");
 	if (!*fail)
 		exit_code = ft_itoa(exec_all(commands, lenv));
 	else
@@ -144,4 +159,3 @@ int	main(int ac, char **av, char **environment)
 	while (1)
 		read_line(readline("XD> "), env, &execution_is_running);
 }
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:48:32 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/21 16:23:32 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/23 23:31:48 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,16 @@ void	handle_redir_in(t_token *tokens, int *fd, t_bool *fail)
 	}
 }
 
-static char	*heredoc_expander(char *input)
+void	switch_tokens_state(t_token *tokens, enum e_state state)
+{
+	while (tokens)
+	{
+		tokens->state = state;
+		tokens = tokens->next;
+	}	
+}
+
+static char	*heredoc_expander(char *input, t_token *token)
 {
 	enum e_state	state;
 	t_token			*tokens;
@@ -59,22 +68,22 @@ static char	*heredoc_expander(char *input)
 	state = NORMAL;
 	tokens = NULL;
 	tokenize(&input, &tokens, &state);
-	p = tokens;
-	while (p)
-	{
-		p->state = NORMAL;
-		p = p->next;
-	}
-	replace_vars(tokens);
+	switch_tokens_state(tokens, NORMAL);
+	if (token->next->expand_heredoc && !(token->next->state == QUOTED
+			|| token->next->state == DOUBLE_QUOTED))
+		replace_vars(tokens);
 	arr = _strdup("");
 	p = tokens;
 	while (p)
 	{
-		arr = _strjoin(arr, p->content);
-		p->content = _strdup("XD?!?!?");
+		arr = _strjoin(arr, _strdup(p->content));
 		p = p->next;
 	}
-	return (free_tokens(tokens), arr);
+	if (token->next->expand_heredoc && !(token->next->state == QUOTED
+			|| token->next->state == DOUBLE_QUOTED))
+		return (free_tokens(tokens), arr);
+	else
+		return (free_tokens(tokens), _strjoin(_strdup("$"), arr));
 }
 
 int	handle_heredoc(t_token *tokens, int *fd, t_bool *fail)
@@ -91,7 +100,8 @@ int	handle_heredoc(t_token *tokens, int *fd, t_bool *fail)
 	input = readline(">");
 	while (input && !_strcmp(input, tokens->next->content))
 	{
-		arr = _strjoin(heredoc_expander(input), _strdup("\n"));
+		arr = _strjoin(heredoc_expander(input, tokens),
+				_strdup("\n"));
 		write(fdd[1], arr, _strlen(arr) + 1);
 		free(arr);
 		free(input);

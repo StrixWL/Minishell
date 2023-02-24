@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:17:04 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/21 19:48:50 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/24 00:23:20 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,17 @@
 
 void	replace_vars(t_token *tokens)
 {
-	char	*value;
-
 	while (tokens)
 	{
 		if (tokens->type == VAR && tokens->state != QUOTED)
-		{
-			if (_strcmp(tokens->content, ""))
-				value = _strdup("$");
-			else
-			{
-				if (get_var(tokens->content))
-					value = _strdup(get_var(tokens->content));
-				else
-					value = _strdup("");
-			}
-			free(tokens->content);
-			tokens->content = value;
-		}
-		if (tokens->type == VAR && tokens->state == QUOTED)
+			replace_var(tokens);
+		else if (tokens->type == VAR && tokens->state == QUOTED)
 			tokens->content = _strjoin(_strdup("$"), tokens->content);
 		tokens = tokens->next;
 	}
 }
 
-static void	remove_first_quotes(t_token **tokens, enum e_type type)
+void	remove_first_quotes(t_token **tokens, enum e_type type)
 {
 	t_token	*t;
 
@@ -59,7 +45,7 @@ static void	remove_first_quotes(t_token **tokens, enum e_type type)
 	}
 }
 
-static void	remove_quotes(t_token **tokens, enum e_type type)
+void	remove_quotes(t_token **tokens, enum e_type type)
 {
 	t_token	*p;
 	t_token	*t;
@@ -84,7 +70,7 @@ static void	remove_quotes(t_token **tokens, enum e_type type)
 	}
 }
 
-static void	gather_strings(t_token *tokens)
+void	gather_strings(t_token *tokens)
 {
 	void		*p;
 
@@ -102,6 +88,7 @@ static void	gather_strings(t_token *tokens)
 				if (tokens->next->next)
 					tokens->next->next->prev = tokens;
 				tokens->content = p;
+				tokens->expand_heredoc = FALSE;
 				p = tokens->next->next;
 				free(tokens->next);
 				tokens->next = p;
@@ -112,48 +99,30 @@ static void	gather_strings(t_token *tokens)
 	}
 }
 
-void	empty_strings_checker(t_token *tokens)
+void	empty_strings_checker(t_token *tokens, enum e_type type)
 {
 	t_token	*new_node;
-	t_token	*p;
+	t_token	*next;
 
-	p = tokens;
 	while (tokens)
 	{
-		if ((tokens->type == QUOTE && tokens->next && tokens->next->type == QUOTE))
+		next = tokens->next;
+		if ((tokens->type == type && tokens->next
+				&& tokens->next->type == type))
 		{
+			next = tokens->next->next;
 			new_node = _malloc(sizeof(t_token));
 			new_node->content = _strdup("");
-			new_node->state = QUOTED;
+			if (type == QUOTE)
+				new_node->state = QUOTED;
+			else
+				new_node->state = DOUBLE_QUOTED;
 			new_node->type = WORD;
 			new_node->prev = tokens;
 			new_node->next = tokens->next;
-			tokens->next = new_node;
 			tokens->next->prev = new_node;
-			tokens = tokens->next->next;
+			tokens->next = new_node;
 		}
-		else
-			tokens = tokens->next;
+		tokens = next;
 	}
-	while (p)
-	{
-		printf("-> %s\n", p->content);
-		p = p->next;
-	}
-}
-
-void	expand(t_token **tokens)
-{
-	replace_vars(*tokens);
-	// empty_strings_checker(*tokens);
-	remove_quotes(tokens, 666);
-	if (!*tokens)
-	{
-		*tokens = _malloc(sizeof(t_token));
-		(*tokens)->content = _strdup("");
-		(*tokens)->next = NULL;
-		(*tokens)->prev = NULL;
-	}
-	gather_strings(*tokens);
-	remove_quotes(tokens, WSPACE);
 }

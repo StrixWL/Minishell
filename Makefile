@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+         #
+#    By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/21 09:14:44 by yabidi            #+#    #+#              #
-#    Updated: 2023/02/22 04:12:32 by yabidi           ###   ########.fr        #
+#    Updated: 2023/02/24 01:19:35 by bel-amri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=			minishell
-FLAGS=			-Wall -Werror -Wextra
+FLAGS=			-Wall -Werror -Wextra -fsanitize=address -g
 CC=				cc
 HEADERS=		includes/header.h
 SRC_DIR=		src
@@ -47,14 +47,14 @@ SRC_FILES=		main.c \
 	   src/exec/libf/ft_memcmp.c src/exec/libf/ft_memchr.c src/exec/libf/ft_bzero.c src/exec/libf/ft_calloc.c src/exec/libf/ft_striteri.c
 				
 OBJ_FILES=		$(SRC_FILES:.c=.o)
-READLINE=		/Users/yabidi/.brew/opt/readline/
+READLINE=		/Users/bel-amri/.brew/opt/readline/
 
 
 all: $(NAME)
 
 
 $(NAME): $(OBJ_FILES)
-	$(CC) $(OBJ_FILES) $(FLAGS) -lreadline -L$(READLINE)/lib -o $(NAME) 
+	$(CC) $(OBJ_FILES) $(FLAGS) -lreadline -L$(READLINE)/lib -o $(NAME)  -g 
 
 %.o: %.c $(HEADERS)
 	$(CC) $(FLAGS) -I$(READLINE)/include -Iincludes -c $< -o $@

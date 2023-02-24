@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 17:00:37 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/21 18:52:47 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/23 23:31:27 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	new_node(t_token **tokens, t_token *new_token)
 
 	new_token->prev = NULL;
 	new_token->next = NULL;
+	new_token->expand_heredoc = TRUE;
 	if (!*tokens)
 	{
 		*tokens = new_token;

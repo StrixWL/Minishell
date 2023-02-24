@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strings.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 18:05:17 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/21 18:22:59 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/24 00:22:51 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,32 @@ char	*_strjoin(char *s1, char *s2)
 	free(s1 - len1 * sizeof(char));
 	free(s2 - (len2 + 1) * sizeof(char));
 	return (arr);
+}
+
+void	replace_var(t_token *token)
+{
+	t_token	*t;
+	char	*value;
+
+	t = token->prev;
+	while (t && t->type == WSPACE)
+		t = t->prev;
+	if (t && t->type == HEREDOC)
+	{
+		token->content = _strjoin(_strdup("$"), token->content);
+		return ;
+	}
+	if (_strcmp(token->content, "") && !(token->next
+			&& (token->next->type == QUOTE
+				|| token->next->type == DQUOTE)))
+			value = _strdup("$");
+	else
+	{
+		if (get_var(token->content))
+			value = _strdup(get_var(token->content));
+		else
+			value = _strdup("");
+	}
+	free(token->content);
+	token->content = value;
 }
