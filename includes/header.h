@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
+/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:33:06 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/24 01:06:43 by bel-amri         ###   ########.fr       */
+/*   Updated: 2023/02/24 02:19:05 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,4 +154,5 @@ void		ft_exit(char **args);
 int			ft_cd(char **args, t_env *env);
 int			ft_munset(char **value, t_env **env);
 int			ft_export(char **args, t_env *env);
+int			ft_env(t_env *env);
 #endif

@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 18:06:17 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/22 04:19:03 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/24 02:09:04 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ static int	check_property(char *arg)
 	int	i;
 
 	i = 0;
+	if (*(arg) == '=')
+		return (printf("minishell: export: `%s': not a valid identifier\n", arg),
+			-1);
 	while (*(arg + i) && (*(arg + i)) != '='
 		&& !((*(arg + i)) == '+' && (*(arg + i + 1)) == '='))
 	{

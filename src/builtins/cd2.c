@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:27:48 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/22 01:53:56 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/24 01:54:23 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ void	my_new_node(t_env *env, char *value, char *property)
 	new->value = ft_strdup(value);
 	new->property = ft_strdup(property);
 	new->next = NULL;
+	if (!env)
+	{
+		*get_env() = new;
+		return ;
+	}
 	while (env && env->next)
 		env = env->next;
 	env->next = new;

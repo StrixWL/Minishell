@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 18:25:56 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/21 18:11:25 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/24 02:28:40 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	set_env_var(char *property, char *value, t_env *env, int i)
 
 char	*get_env_var(char *property, t_env *env)
 {
-	while (env && ft_strncmp(property, env->property, ft_strlen(property)))
+	while (env && ft_strncmp(property, env->property, ft_strlen(env->property)))
 		env = env->next;
 	if (!env)
 		return (NULL);

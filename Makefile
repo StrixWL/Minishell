@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+         #
+#    By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/21 09:14:44 by yabidi            #+#    #+#              #
-#    Updated: 2023/02/24 01:19:35 by bel-amri         ###   ########.fr        #
+#    Updated: 2023/02/24 02:19:19 by yabidi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=			minishell
-FLAGS=			-Wall -Werror -Wextra -fsanitize=address -g
+FLAGS=			-Wall -Werror -Wextra #-fsanitize=address -g
 CC=				cc
 HEADERS=		includes/header.h
 SRC_DIR=		src
@@ -38,6 +38,7 @@ SRC_FILES=		main.c \
 				src/builtins/unset.c \
 				src/builtins/export.c \
 				src/builtins/export2.c \
+				src/builtins/env.c \
 				src/exec/libf/ft_isalpha.c src/exec/libf/ft_isdigit.c src/exec/libf/ft_isalnum.c src/exec/libf/ft_isascii.c src/exec/libf/ft_strlen.c \
 	   src/exec/libf/ft_toupper.c src/exec/libf/ft_tolower.c src/exec/libf/ft_strchr.c src/exec/libf/ft_strrchr.c src/exec/libf/ft_strncmp.c \
 	   src/exec/libf/ft_strnstr.c src/exec/libf/ft_strlcpy.c src/exec/libf/ft_strlcat.c src/exec/libf/ft_atoi.c src/exec/libf/ft_strdup.c \
@@ -47,7 +48,7 @@ SRC_FILES=		main.c \
 	   src/exec/libf/ft_memcmp.c src/exec/libf/ft_memchr.c src/exec/libf/ft_bzero.c src/exec/libf/ft_calloc.c src/exec/libf/ft_striteri.c
 				
 OBJ_FILES=		$(SRC_FILES:.c=.o)
-READLINE=		/Users/bel-amri/.brew/opt/readline/
+READLINE=		/Users/yabidi/.brew/opt/readline/
 
 
 all: $(NAME)
