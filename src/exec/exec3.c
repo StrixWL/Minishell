@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec3.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bel-amri <clorensunity@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:24:46 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/22 02:51:00 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/24 04:09:16 by bel-amri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ char	*join_path_cmd(char *path, char *cmd)
 
 int	check_dir_and_access(char *cmd)
 {
-	while ((*(cmd) == '/') && (*(cmd + 1) == '/'))
-			cmd++;
 	if (access(cmd, F_OK) == 0)
 		return (0);
 	if (*(cmd) == '/')

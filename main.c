@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 21:34:36 by bel-amri          #+#    #+#             */
-/*   Updated: 2023/02/24 01:51:21 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/28 00:12:54 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,6 @@ int	main(int ac, char **av, char **environment)
 	set_env_var("?", "0", env, 0);
 	is_execution_running(&execution_is_running);
 	ac = (int)av;
-	printf("%d\n", getpid());
 	capture_signals();
 	while (1)
 		read_line(readline("XD> "), env, &execution_is_running);

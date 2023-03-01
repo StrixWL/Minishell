@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:17:43 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/22 04:20:29 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/27 23:25:13 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ int	check_exist(char **paths, char *cmd, int red)
 	int		i;
 	char	*s;
 
-	while (cmd && *cmd == '.')
-		cmd++;
 	if (cmd && !*cmd && !red)
 		print_not_found(cmd);
 	if (cmd && !ft_strchr(cmd, '/') && paths)

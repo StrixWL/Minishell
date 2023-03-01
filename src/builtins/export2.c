@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:27:18 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/24 02:13:24 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/27 23:24:58 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,18 @@
 
 void	without_value(char *arg, t_env *env)
 {
+	t_env	*temp;
 	t_env	*new;
 
+	temp = env;
+	while (temp && ft_strncmp(arg,
+			temp->property, ft_strlen(env->property)))
+		temp = temp->next;
+	if (temp)
+		return ;
 	new = malloc(sizeof(t_env));
+	if (!new)
+		exit(1);
 	new->property = strdup(arg);
 	new->value = NULL;
 	new->next = NULL;

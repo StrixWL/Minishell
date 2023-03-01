@@ -6,7 +6,7 @@
 /*   By: yabidi <yabidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 18:25:56 by yabidi            #+#    #+#             */
-/*   Updated: 2023/02/24 02:28:40 by yabidi           ###   ########.fr       */
+/*   Updated: 2023/02/27 19:35:56 by yabidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ void	set_env_var(char *property, char *value, t_env *env, int i)
 	char	*temp2;
 
 	temp = env;
-	while (temp && ft_strncmp(property, temp->property, ft_strlen(property)))
+	while (temp && ft_strncmp(property,
+			temp->property, ft_strlen(env->property)))
 		temp = temp->next;
-	if (temp && !ft_strncmp(property, temp->property, ft_strlen(property)))
+	if (temp && !ft_strncmp(property, temp->property, ft_strlen(env->property)))
 	{
 		temp2 = temp->value;
 		if (value && i == 0)
@@ -30,9 +31,7 @@ void	set_env_var(char *property, char *value, t_env *env, int i)
 		free(temp2);
 	}
 	else
-	{
 		my_new_node(env, value, property);
-	}
 }
 
 char	*get_env_var(char *property, t_env *env)
